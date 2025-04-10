@@ -1,4 +1,4 @@
-package br.desafio.prodiga.desafio.casdastro;
+package br.desafio.prodiga;
 
 
 import org.springframework.boot.CommandLineRunner;
@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CasdastroApplication implements CommandLineRunner  {
+public class CadastroApplication implements CommandLineRunner  {
 
-	public static void main(String[] args) { SpringApplication.run(CasdastroApplication.class, args); }
+	public static void main(String[] args) { SpringApplication.run(CadastroApplication.class, args); }
     
 	
 	
