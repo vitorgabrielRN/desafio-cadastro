@@ -1,6 +1,8 @@
 package br.desafio.prodiga.Model;
 
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,20 +17,22 @@ public class Cliente {
 
     private String nome;
     private String email;
-    private String endereco; 
+    private String endereco;
+    @Column(unique = true) 
     private String cpf;
+    
     private String telefone;
-    private String senha;
+   
 
 
-    public Cliente(Long id, String nome, String email, String endereco, String cpf, String telefone, String senha) {
+    public Cliente(Long id, String nome, String email, String endereco, String cpf, String telefone)  {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.senha = senha;
+       
     }
 
 
@@ -73,12 +77,7 @@ public class Cliente {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+  
 
     @Override
     public String toString() {
@@ -90,13 +89,7 @@ public class Cliente {
         sb.append(", endereco=").append(endereco);
         sb.append(", cpf=").append(cpf);
         sb.append(", telefone=").append(telefone);
-        sb.append(", senha=").append(senha);
         sb.append('}');
         return sb.toString();
     }
-
-    
-
-     
-
 }
