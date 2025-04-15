@@ -14,7 +14,7 @@ public class ClienteServico {
     
     
     @Autowired
-    private static ClienteRepositorio clienteRepositorio;
+    private  ClienteRepositorio clienteRepositorio;
 
 
     public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone ) {
