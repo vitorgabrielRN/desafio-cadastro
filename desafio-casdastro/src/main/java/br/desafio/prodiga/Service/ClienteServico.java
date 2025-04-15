@@ -11,30 +11,27 @@ import br.desafio.prodiga.Repository.ClienteRepositorio;
 
 @Service
 public class ClienteServico {
-    
-    
+
     @Autowired
-    private  ClienteRepositorio clienteRepositorio;
+    private ClienteRepositorio clienteRepositorio;
 
+    public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone) {
 
-    public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone ) {
-
-            
         Cliente cliente = new Cliente();
-        
+
         try {
             System.out.println("cadastrando");
             cliente.setNome(nome);
             cliente.setCpf(cpf);
             cliente.setEmail(email);
             cliente.setEndereco(endereco);
-            cliente.setTelefone(telefone); 
+            cliente.setTelefone(telefone);
             return clienteRepositorio.save(cliente);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-  
+
     }
 
     public Cliente salvarCliente(Cliente cliente) {
@@ -44,10 +41,10 @@ public class ClienteServico {
     public Optional<Cliente> buscarClienteId(Long id) {
         return clienteRepositorio.findById(id);
     }
-    public List<Cliente> listarClientes() {
-       return clienteRepositorio.findAll();
-    }
 
+    public List<Cliente> listarClientes() {
+        return clienteRepositorio.findAll();
+    }
 
     public boolean excluirCliente(Long id) {
         if (clienteRepositorio.existsById(id)) {
@@ -56,15 +53,5 @@ public class ClienteServico {
         }
         return false;
     }
-    
-
-
-    
-
-    
-    
-
-
-    
 
 }

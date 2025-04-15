@@ -13,6 +13,7 @@
     crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="#">
 
 </head>
 
@@ -22,11 +23,11 @@
   <h1> Cadastro</h1>
 
 
-  <form action="/cliente/salvar" method="post" th:object="${Cliente}">
+  <form action="/cliente/Formulario" method="POST" th:object="${cliente}">
     <div class="row g-3">
 
       <div class="col">
-        <input type="text" class="form-control" placeholder="nome" aria-label="nome" th:field="*{Nome}">
+        <input type="text" class="form-control" placeholder="nome" aria-label="nome" th:field="*{nome}">
         <p class="tex-danger" th:if="${#fields.hasErros('nome')}" th:erros="*{nome}"></p>
       </div>
       <div class="col">
@@ -45,7 +46,7 @@
         <input title="text" class="form-control" placeholder="endereço" aria-label="endereco" th:field="*{endereco}">
         <p class="tex-danger" th:if="${#fields.hasErros('endereco')}" th:erros="*{endereco}"></p>
       </div>
-      <input type="button" value="cadastar" placeholder="submit">
+      <input type="button" value="cadastrar" placeholder="submit">
     </div>
     <div th:if="${mensagem}" class="alert alert-succes mt-3" role="alert">
       <p th:text="${mensagem}"></p>
@@ -56,4 +57,5 @@
   </form>
 
 </body>
+
 </html>
