@@ -14,7 +14,7 @@ public class CadastroApplication implements CommandLineRunner  {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("teste");
+		System.out.println("funciona");
 	}
    
 	

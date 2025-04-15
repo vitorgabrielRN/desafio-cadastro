@@ -22,13 +22,19 @@ public class ClienteServico {
             
         Cliente cliente = new Cliente();
         
-        
-        cliente.setNome(nome);
-        cliente.setCpf(cpf);
-        cliente.setEmail(email);
-        cliente.setEndereco(endereco);
-        cliente.setTelefone(telefone); 
-        return clienteRepositorio.save(cliente);
+        try {
+            System.out.println("cadastrando");
+            cliente.setNome(nome);
+            cliente.setCpf(cpf);
+            cliente.setEmail(email);
+            cliente.setEndereco(endereco);
+            cliente.setTelefone(telefone); 
+            return clienteRepositorio.save(cliente);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+  
     }
 
     public Cliente salvarCliente(Cliente cliente) {

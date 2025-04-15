@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Service.ClienteServico;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,7 +37,7 @@ public class ClienteControle {
     }
 
      @PostMapping("/salvar")
-     public ResponseEntity<Cliente> salvarCliente( Cliente cliente) {
+     public ResponseEntity<Cliente> salvarCliente( @Valid Cliente cliente) {
       Cliente clienteSalvo = clienteServico.salvarCliente(cliente);
       return new ResponseEntity<>(clienteSalvo, HttpStatus.CREATED);
      }
@@ -49,7 +51,7 @@ public class ClienteControle {
      }
     
     @PutMapping("atualizar/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
+    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id,    @RequestBody Cliente clienteAtualizado) {
        Optional<Cliente> clienteExistenteOptional = clienteServico.buscarClienteId(id);
           if (clienteExistenteOptional.isPresent()) {
             clienteAtualizado.setId(id);
