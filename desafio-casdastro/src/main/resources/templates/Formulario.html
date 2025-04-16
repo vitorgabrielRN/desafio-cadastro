@@ -23,32 +23,34 @@
   <h1> Cadastro</h1>
 
 
-  <form action="/cliente/Formulario" method="POST" th:object="${cliente}">
+  <form th:action="@{/Cliente/salvar}" method="post" th:object="${Cliente}">
     <div class="row g-3">
 
       <div class="col">
         <input type="text" class="form-control" placeholder="nome" aria-label="nome" th:field="*{nome}">
-        <p class="tex-danger" th:if="${#fields.hasErros('nome')}" th:erros="*{nome}"></p>
+        <p class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
       </div>
       <div class="col">
         <input type="email" class="form-control" placeholder="email" aria-label="email" th:field="*{email}">
-        <p class="tex-danger" th:if="${#fields.hasErros('email')}" th:erros="*{email}"></p>
+        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
       </div>
       <div class="col">
         <input type="tel" class="form-control" placeholder="telefone" aria-label="telefone" th:field="*{telefone}">
-        <p class="tex-danger" th:if="${#fields.hasErros('telefone')}" th:erros="*{telefone}"></p>
+        <p class="text-danger" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></p>
+
       </div>
       <div class="col">
         <input type="text" class="form-control" placeholder="cpf" aria-label="cpf" th:field="*{cpf}">
-        <p class="tex-danger" th:if="${#fields.hasErros('cpf')}" th:erros="*{cpf}"></p>
+        <p class="text-danger" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></p>
       </div>
       <div>
         <input title="text" class="form-control" placeholder="endereço" aria-label="endereco" th:field="*{endereco}">
-        <p class="tex-danger" th:if="${#fields.hasErros('endereco')}" th:erros="*{endereco}"></p>
+        <p class="text-danger" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}"></p>
       </div>
-      <input type="button" value="cadastrar" placeholder="submit">
+      <input type="submit" value="cadastrar" placeholder="submit">
     </div>
-    <div th:if="${mensagem}" class="alert alert-succes mt-3" role="alert">
+    <div th:if="${mensagem}" class="alert alert-success mt-3" role="alert">
       <p th:text="${mensagem}"></p>
     </div>
 

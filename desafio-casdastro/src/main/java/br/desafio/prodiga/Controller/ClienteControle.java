@@ -8,12 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Service.ClienteServico;
 import jakarta.validation.Valid;
@@ -22,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-@RequestMapping("/clientes")
+@RequestMapping("/Cliente")
 public class ClienteControle {
 
   @Autowired
@@ -72,21 +69,11 @@ public class ClienteControle {
 
   @GetMapping("/Formulario")
   public String mostrarFormulario(Model model) {
-    model.addAttribute("cliente", new Cliente());
+    model.addAttribute("Cliente", new Cliente());
     return "Formulario";
   }
 
-  @PostMapping("/Formulario")
-  public String cadastrarFormularioCliente(@ModelAttribute Cliente cliente, RedirectAttributes redirectAttributes) {
-    try {
-    clienteServico.salvarCliente(cliente);
-    redirectAttributes.addFlashAttribute("mensagem", "Concluido");
-    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-  } catch (Exception e) {
-    e.printStackTrace();
-    redirectAttributes.addFlashAttribute("mensagem", "erro");
-    redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-  }
-   return "redirect:clientes/Formulario";
-  }
+  
+
+
 }
