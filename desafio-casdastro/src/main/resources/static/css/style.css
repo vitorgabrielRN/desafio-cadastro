@@ -1,6 +1,6 @@
 
 body.box {
-    font-family: sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
     background-color: #95cdd6;
     display: flex;
     flex-direction: column;
@@ -9,14 +9,15 @@ body.box {
     min-height: 100vh;
     margin: 0;
     padding: 20px;
+
 }
 
 h1 {
     color: #1e2220;
     margin-bottom: 20px;
 }
-input[type="button"] {
-    background-color: #24D4F0;
+input[type="submit"] {
+    background-color: #4ac1d6;
     color: white;
     padding: 10px 40px;
     border: none;
@@ -32,6 +33,7 @@ input[type="button"] {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
 }
 
 .col {
@@ -48,6 +50,6 @@ input[type="button"] {
 
 
 
-input[type="button"]:hover {
+input[type="submit"]:hover {
     background-color: #ff0a0a;
 }

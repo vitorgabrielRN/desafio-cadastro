@@ -67,13 +67,13 @@ public class ClienteControle {
     }
   }
 
-  @GetMapping("/Formulario")
+  @GetMapping("/formulario")
   public String mostrarFormulario(Model model) {
     model.addAttribute("Cliente", new Cliente());
-    return "Formulario";
+    return "formulario";
   }
 
-  
+
 
 
 }
