@@ -15,9 +15,15 @@ public class CadastroApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("funciona");
 	}
+  
+
+
 
 }
 // URLS
 // http://localhost:8080/swagger-ui/index.html
 // http://localhost:8080/Cliente/formulario
 // http://localhost:8080/Cliente
+
+
+
