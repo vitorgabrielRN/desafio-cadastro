@@ -1,5 +1,6 @@
 package br.desafio.prodiga.Model;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
