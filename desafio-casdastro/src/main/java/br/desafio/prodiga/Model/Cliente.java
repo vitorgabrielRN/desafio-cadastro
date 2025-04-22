@@ -103,4 +103,8 @@ public class Cliente {
         sb.append('}');
         return sb.toString();
     }
+
+    public static void isPresent(Object object) {
+       
+    }
 }

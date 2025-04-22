@@ -1,4 +1,5 @@
 package br.desafio.prodiga.Controller;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +16,6 @@ import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Service.ClienteServico;
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 @Controller
 @RequestMapping("/Cliente")
 public class ClienteControle {
@@ -26,15 +24,52 @@ public class ClienteControle {
   private ClienteServico clienteServico;
 
   @GetMapping
-  public ResponseEntity<List<Cliente>> listarClientes() {
+  public String listarClientes(Model model) {
     List<Cliente> clientes = clienteServico.listarClientes();
-    return new ResponseEntity<>(clientes, HttpStatus.OK);
+    model.addAttribute("clientes", clientes);
+    return "listaClientes";
+  }
+
+  @GetMapping("/formulario")
+  public String mostrarFormulario(Model model) {
+    model.addAttribute("Cliente", new Cliente());
+    return "formulario";
   }
 
   @PostMapping("/salvar")
-  public ResponseEntity<Cliente> salvarCliente(@Valid Cliente cliente) {
-    Cliente clienteSalvo = clienteServico.salvarCliente(cliente);
-    return new ResponseEntity<>(clienteSalvo, HttpStatus.CREATED);
+  public String salvarCliente(@Valid Cliente cliente, Model model) {
+    clienteServico.salvarCliente(cliente);
+    model.addAttribute("mensagem", "Cliente criado");
+    return "redirect:/Cliente";
+  }
+
+  @GetMapping("/editar/{id}")
+  public String NovoFormulario(@PathVariable Long id, Model model) {
+    Optional<Cliente> clienteOptional = clienteServico.buscarClienteId(id);
+    clienteOptional.ifPresentOrElse(
+        Cliente -> model.addAttribute("Cliente", Cliente), () -> model.addAttribute("mensagemErro", "erro"));
+    return "formulario";
+  }
+
+  @PostMapping("atualizar/{id}")
+  public String atualizarCliente(@PathVariable Long id, @Valid Cliente clienteAtualizado, Model model) {
+    Optional<Cliente> clienteExistenteOptional = clienteServico.buscarClienteId(id);
+    if (clienteExistenteOptional.isPresent()) {
+      clienteAtualizado.setId(id);
+      clienteServico.salvarCliente(clienteAtualizado);
+      model.addAttribute("mensagem", "Cliente atualizado com sucesso");
+      return "redirect:/Cliente";
+    } else {
+      model.addAttribute("mensagemErro", "erro, não deu pra atualizar");
+      return "redirect:/Cliente";
+    }
+  }
+
+  @GetMapping("/excluir/{id}")
+  public String excluirCliente(@PathVariable Long id) {
+    clienteServico.excluirCliente(id);
+    return "redirect:/Cliente";
+
   }
 
   @GetMapping("/{id}")
@@ -44,36 +79,5 @@ public class ClienteControle {
         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
   }
-
-  @PutMapping("atualizar/{id}")
-  public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
-    Optional<Cliente> clienteExistenteOptional = clienteServico.buscarClienteId(id);
-    if (clienteExistenteOptional.isPresent()) {
-      clienteAtualizado.setId(id);
-      Cliente clienteSalvo = clienteServico.salvarCliente(clienteAtualizado);
-      return new ResponseEntity<>(clienteSalvo, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-  }
-
-  @SuppressWarnings("rawtypes")
-  @GetMapping("/excluir/{id}")
-  public ResponseEntity excluirCliente(@PathVariable Long id) {
-    if (clienteServico.excluirCliente(id)) {
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-  }
-
-  @GetMapping("/formulario")
-  public String mostrarFormulario(Model model) {
-    model.addAttribute("Cliente", new Cliente());
-    return "formulario";
-  }
-
-
-
 
 }
