@@ -24,6 +24,6 @@ public class CadastroApplication implements CommandLineRunner {
 // http://localhost:8080/swagger-ui/index.html
 // http://localhost:8080/Cliente/formulario
 // http://localhost:8080/Cliente
-
+// isabela barreto 	isabela_barreto@outlook.com 	053.936.702-81 	96159218
 
 
