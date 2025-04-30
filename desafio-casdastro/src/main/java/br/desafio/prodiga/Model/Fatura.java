@@ -1,6 +1,7 @@
 package br.desafio.prodiga.Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 
+
 @Table(name = "/Fatura'")
 public class Fatura {
 
@@ -27,7 +29,18 @@ public class Fatura {
 
     private String fatura;
 
-    private LocalDate mesReferencia;
+    private int mesReferencia;
 
+    private int anoReferencia;
+
+    private Double valor;
+
+    private String situacao;
+
+    private int dataVencimento;
+
+    private String codigoBoleto;
+
+    private LocalDateTime datapPagamento;
 
 }
