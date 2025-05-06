@@ -1,5 +1,7 @@
 package br.desafio.prodiga.Model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -23,7 +25,7 @@ import lombok.Setter;
 
 
 @Table(name = "/Faturas")
-public class Fatura {
+public class Fatura  implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +41,11 @@ public class Fatura {
 
     private String situacao;
 
-    private int dataVencimento;
-   
+    private LocalDate dataVencimento;
+
     @Column(nullable = false,  unique = true)
     private String codigoBoleto;
-     
+
     private LocalDateTime datapPagamento;
 
     private LocalDateTime dataGeracao = LocalDateTime.now();
@@ -57,6 +59,6 @@ public class Fatura {
 
     public void GerarNumFatura(){
         this.numfatura = "FAT-" + LocalDateTime.now().getYear() + LocalDateTime.now().getMonth() +
-         "-" + String.format("%06d", new Random().nextInt(10000));
+        "-" + String.format("%06d", new Random().nextInt(10000));
     }
 }
