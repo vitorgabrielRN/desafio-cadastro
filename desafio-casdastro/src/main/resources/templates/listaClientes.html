@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +13,12 @@
 <body>
 
     <body class="container mt-5" :>
+
+     
+</head>
+<body>
+    <body class="container mt-5":>
+
         <h1>lista de clientes</h1>
 
         <table class="table table-striped">
@@ -33,6 +38,7 @@
                     <td th:text="${cliente.nome}"></td>
                     <td th:text="${cliente.email}"></td>
                     <td th:text="${cliente.cpf}"></td>
+
                     <td th:text="${cliente.telefone}"></td>
                     </td>
                     <td>
@@ -46,6 +52,21 @@
         <a th:href="@{/Cliente/formulario}" class="btn btn-success">Novo Cliente</a>
     </body>
 
+</body>
+
+=======
+                    <td th:text="${cliente.telefone}"></td>              
+                 </td>
+                   <td>
+                  <a th:href="@{/Cliente/editar/{id}(id=${cliente.id})}" class="btn btn-primary btn-sm">atualizar</a>
+                  <a th:href="@{/Cliente/excluir/{id}(id=${cliente.id})}" class ="btn btn-danger btn-sm"
+                   onlick="return confirm('quer mesmo apagar')">apagar</a>
+                   </td>
+            </tbody>        
+        </table>
+        <a th:href="@{/Cliente/formulario}" class="btn btn-success">Novo Cliente</a>
+    </body>
+    
 </body>
 
 </html>
