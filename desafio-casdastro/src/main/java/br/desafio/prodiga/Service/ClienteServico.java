@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.desafio.prodiga.Model.Cliente;
-import br.desafio.prodiga.Repository.ClienteRepositorio;
+import br.desafio.prodiga.Repository.ClienteRepository;
 
 @Service
 public class ClienteServico {
 
     @Autowired
-    private ClienteRepositorio clienteRepositorio;
+    private ClienteRepository clienteRepositorio;
 
     public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone) {
 
