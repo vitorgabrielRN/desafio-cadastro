@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 
 
-@Table(name = "/Faturas")
+@Table(name = "/faturas")
 public class Fatura  implements Serializable{
 
     @Id
@@ -49,7 +50,7 @@ public class Fatura  implements Serializable{
     private LocalDateTime datapPagamento;
 
     private LocalDateTime dataGeracao = LocalDateTime.now();
-
+    @ManyToOne
     private Cliente cliente;
     
     public void GerarNumeroBoleto(){

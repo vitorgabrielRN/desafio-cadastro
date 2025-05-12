@@ -11,15 +11,8 @@
 </head>
 
 <body>
-
-    <body class="container mt-5" :>
-
-     
-</head>
-<body>
-    <body class="container mt-5":>
-
-        <h1>lista de clientes</h1>
+    <div class="container mt-5">
+        <h1>Lista de Clientes</h1>
 
         <table class="table table-striped">
             <thead>
@@ -29,7 +22,7 @@
                     <th>Email</th>
                     <th>CPF</th>
                     <th>Telefone</th>
-                    <th>Açoẽs/th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,35 +31,19 @@
                     <td th:text="${cliente.nome}"></td>
                     <td th:text="${cliente.email}"></td>
                     <td th:text="${cliente.cpf}"></td>
-
-                    <td th:text="${cliente.telefone}"></td>
-                    </td>
+                    <td th:if="${cliente != null}" th:text="${cliente.telefone}"></td>
+                    <td th:if="${cliente == null}"></td>
                     <td>
-                        <a th:href="@{/Cliente/editar/{id}(id=${cliente.id})}"
-                            class="btn btn-primary btn-sm">atualizar</a>
+                        <a th:href="@{/Cliente/editar/{id}(id=${cliente.id})}" class="btn btn-primary btn-sm me-2">Atualizar</a>
                         <a th:href="@{/Cliente/excluir/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm"
-                            onlick="return confirm('quer mesmo apagar')">apagar</a>
+                            onclick="return confirm('Quer mesmo apagar?')">Apagar</a>
+                        <a th:href="@{/clientes/{clienteId}/faturas(clienteId=${cliente.id})}"
+                            class="btn btn-info btn-sm mt-1">Ver Faturas</a>
                     </td>
+                </tr>
             </tbody>
         </table>
         <a th:href="@{/Cliente/formulario}" class="btn btn-success">Novo Cliente</a>
-    </body>
-
+    </div>
 </body>
-
-=======
-                    <td th:text="${cliente.telefone}"></td>              
-                 </td>
-                   <td>
-                  <a th:href="@{/Cliente/editar/{id}(id=${cliente.id})}" class="btn btn-primary btn-sm">atualizar</a>
-                  <a th:href="@{/Cliente/excluir/{id}(id=${cliente.id})}" class ="btn btn-danger btn-sm"
-                   onlick="return confirm('quer mesmo apagar')">apagar</a>
-                   </td>
-            </tbody>        
-        </table>
-        <a th:href="@{/Cliente/formulario}" class="btn btn-success">Novo Cliente</a>
-    </body>
-    
-</body>
-
 </html>
