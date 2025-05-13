@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.IllegalTransactionStateException;
 
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
@@ -17,19 +18,24 @@ import jakarta.transaction.Transactional;
 @Service
 
 public class FaturaService {
+
     @Autowired
     private ClienteRepository clienteRepository;
+
+
     @Autowired
     private FaturaRepository faturaRepository;
 
     @Transactional
     public void gerarFaturas(int ano, int mes) {
         List<Cliente> clientesAtivos = clienteRepository.findAll();
+        
         if (clientesAtivos.isEmpty()) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cliente não encontrado!");
         }
         Random random = new Random();
         LocalDate dataGeração = LocalDate.now();
+
         for (Cliente cliente : clientesAtivos) {
             Fatura fatura = new Fatura();
             fatura.setAno(ano);
@@ -38,38 +44,24 @@ public class FaturaService {
             fatura.setSituacao("GERADA");
             fatura.setDataVencimento(dataGeração.plusDays(30));
             fatura.setNumfatura(" ");
-            ;
             fatura.setCliente(cliente);
             faturaRepository.save(fatura);
         }
     }
 
-    public List<Fatura> listarFatura() {
-        return faturaRepository.findAll();
-    }
-
-    public Fatura buscarFaturaPorId(Long id) { 
-        return faturaRepository.findById(id).orElse(null);
-    }
-
-    public List<Fatura> buscarFaturaPorCliente(Long clienteId) {
-        return faturaRepository.findByCliente_Id(clienteId);
-    }
-
-    public List<Fatura> listarFaturasPorSituacao(String situacao) {
-        return faturaRepository.findBySituacao(situacao);
-    }
-
     @Transactional
     public Fatura pagarFatura(Long id, LocalDate dataPagamento) {
         Fatura fatura = faturaRepository.findById(id).orElse(null);
+        
         if (fatura != null && !fatura.getSituacao().equals("PAGA") && !fatura.getSituacao().equals("CANCELADA")) {
             fatura.setSituacao("PAGA");
             fatura.setDatapPagamento(LocalDateTime.now());
             faturaRepository.save(fatura);
             return fatura;
+        } else  {
+        throw new IllegalTransactionStateException("ERRO de pagamento");
         }
-        return null; 
+        
     }
 
     @Transactional
@@ -82,5 +74,21 @@ public class FaturaService {
         }
         return null;
 
-}
+    }
+
+    public List<Fatura> listarFatura() {
+        return faturaRepository.findAll();
+    }
+
+    public Fatura buscarFaturaPorId(Long id) {
+        return faturaRepository.findById(id).orElse(null);
+    }
+
+    public List<Fatura> buscarFaturaPorCliente(Long clienteId) {
+        return faturaRepository.findByCliente_Id(clienteId);
+    }
+
+    public List<Fatura> listarFaturasPorSituacao(String situacao) {
+        return faturaRepository.findBySituacao(situacao);
+    }
 }
