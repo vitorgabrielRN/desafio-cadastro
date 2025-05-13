@@ -95,5 +95,6 @@ public String cancelamentoFatura(@PathVariable Long id, Model model){
         }        
     return"/faturasGeradas";
 }
-
+//TODO preparar a verificacação final para e a criação dos HTML
+//TODO reajuste do situacao
 }

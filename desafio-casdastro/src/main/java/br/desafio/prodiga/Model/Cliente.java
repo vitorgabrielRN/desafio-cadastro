@@ -55,6 +55,6 @@ public class Cliente implements Serializable {
     }
 
     public static void isPresent(Object object) {
-       
+    
     }
 }

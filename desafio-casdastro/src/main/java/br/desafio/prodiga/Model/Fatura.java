@@ -55,7 +55,7 @@ public class Fatura  implements Serializable{
     
     public void GerarNumeroBoleto(){
         this.numfatura = "BOL-" + LocalDateTime.now().getYear() + "-" + 
-        String.format("06d",(int)(Math.random() + 999999));
+        String.format("06d",(int)(Math.random() + 999999)); 
     }
 
     public void GerarNumFatura(){
