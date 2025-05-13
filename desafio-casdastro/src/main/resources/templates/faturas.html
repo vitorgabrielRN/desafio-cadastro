@@ -12,8 +12,8 @@
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1>Lista de Clientes</h1>
+    <div class="container mt-5" >
+        <h1 th:text="'Faturas do Cliente ID: ' + ${clienteId}"></h1>
 
         <table class="table table-striped">
             <thead>
@@ -22,11 +22,15 @@
                     <th>Nome</th>
                     <th>Fatura</th>
                     <th>pagamento</th>
-                    <th>situacao</th>
+                    <th>situação</th>
                     <th>Ações</th>
+                    <th>Valor</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody
+                    </td>
+                </tr>
+            </tbody>
 
 
 
