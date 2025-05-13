@@ -92,7 +92,7 @@ public String cancelamentoFatura(@PathVariable Long id, Model model){
             model.addAttribute("mensagem","Fatura" + canceladaFatura.getNumfatura() + "cancelada.");
         } else {
             model.addAttribute("ERRO", "Erro pra cancelar");
-        }        
+        }    
     return"/faturasGeradas";
 }
 //TODO preparar a verificacação final para e a criação dos HTML
