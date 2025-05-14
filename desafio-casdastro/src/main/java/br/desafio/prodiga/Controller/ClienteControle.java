@@ -65,15 +65,15 @@ public class ClienteControle {
             return "redirect:/Cliente";
         }
     }
-     @GetMapping("/Cliente/excluir/{id}")
+    @GetMapping("/Cliente/excluir/{id}")
     public String excluirCliente(@PathVariable Long id) {
         clienteServico.excluirCliente(id);
         return "redirect:/Cliente";
     }
     @GetMapping("/Cliente/{id}")
-     public ResponseEntity<Cliente> buscarClienteId(@PathVariable Long id) {
+    public ResponseEntity<Cliente> buscarClienteId(@PathVariable Long id) {
         Optional<Cliente> cliente = clienteServico.buscarClienteId(id);
         return cliente.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-     }
+    }
 }    
