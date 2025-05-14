@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import br.desafio.prodiga.Model.Cliente;
 
 
+
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+    
 
 }

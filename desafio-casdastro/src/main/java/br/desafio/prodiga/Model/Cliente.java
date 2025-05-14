@@ -35,6 +35,7 @@ public class Cliente implements Serializable {
     @CPF
     @Column(unique = true)
     private String cpf;
+
     @NotBlank
     private String telefone;
 
@@ -54,6 +55,6 @@ public class Cliente implements Serializable {
     }
 
     public static void isPresent(Object object) {
-       
+    
     }
 }
