@@ -62,4 +62,19 @@ public class Fatura  implements Serializable{
         this.numfatura = "FAT-" + LocalDateTime.now().getYear() + LocalDateTime.now().getMonth() +
         "-" + String.format("%06d", new Random().nextInt(10000));
     }
+
+    public void setDatapPagamento(LocalDate dataPagamento) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDatapPagamento'");
+    }
+
+    public void setAnoReferencia(int ano2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setAnoReferencia'");
+    }
+
+    public void setMesReferencia(int mes2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setMesReferencia'");
+    }
 }

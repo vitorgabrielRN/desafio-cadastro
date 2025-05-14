@@ -13,7 +13,7 @@ import br.desafio.prodiga.Repository.ClienteRepository;
 public class ClienteServico {
 
     @Autowired
-    private ClienteRepository clienteRepositorio;
+    private static ClienteRepository clienteRepositorio;
 
     public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone) {
 
@@ -42,7 +42,7 @@ public class ClienteServico {
         return clienteRepositorio.findById(id);
     }
 
-    public List<Cliente> listarClientes() {
+    public static List<Cliente> listarClientes() {
         return clienteRepositorio.findAll();
     }
 
