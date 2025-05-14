@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faturas do Cliente</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div class="container mt-5">
-        <h1 th:text="'Faturas do Cliente: ' + ${cliente.nome}">Faturas do Cliente</h1>
-
+        <h1 th:text="${cliente != null} ? 'Faturas do Cliente: ' + ${cliente.nome} : 'Todas as Faturas'"></h1>
+        <h1 th:unless="${cliente != null}">Todas as Faturas</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,24 +28,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="fatura : ${listarFaturas}">
-                    <td th:text="${fatura.numFatura}"></td>
-                    <td th:text="${#dates.format(fatura.anoReferencia + '-' + fatura.mesReferencia + '-01', 'MM/yyyy')}"></td>
+                <tr th:each="fatura : ${faturas}">
+                    <td th:text="${fatura.numfatura}"></td>
+                    <td th:text="${fatura.mes}/${fatura.ano}"></td>
                     <td th:text="${#numbers.formatCurrency(fatura.valor)}"></td>
                     <td th:text="${#dates.format(fatura.dataVencimento, 'dd/MM/yyyy')}"></td>
                     <td th:text="${fatura.situacao}"></td>
-                    <td th:text="${fatura.codBoleto}"></td>
-                    <td th:text="${fatura.dataPagamento != null ? #dates.format(fatura.dataPagamento, 'dd/MM/yyyy') : '-'}"></td>
-                    <td>
-                        <a th:href="@{/faturas/{id}/pagamento(id=${fatura.id})}" class="btn btn-success btn-sm me-2"
-                           th:if="${fatura.situacao == 'GERADA'}">Pagar</a>
-                        <a th:href="@{/faturas/{id}/cancelar(id=${fatura.id})}" class="btn btn-danger btn-sm"
-                           th:if="${fatura.situacao == 'GERADA'}">Cancelar</a>
+                    <td th:text="${fatura.codigoBoleto}"></td>
+                    <td
+                        th:text="${fatura.dataPagamento != null ? #dates.format(fatura.dataPagamento, 'dd/MM/yyyy') : '-'}">
                     </td>
+                    <td
+                        th:text="${fatura.dataVencimento} ? ${#dates.format(fatura.dataVencimento, 'dd/MM/yyyy')} : '-'">
+                    </td>
+                    <td
+                        th:text="${fatura.datapPagamento} ? ${#dates.format(fatura.datapPagamento, 'dd/MM/yyyy')} : '-'">
+                    </td>
+                    <a th:href="@{/faturas/{id}/pagamento(id=${fatura.id})}" class="btn btn-success btn-sm me-2"
+                        th:if="${fatura.situacao != null and fatura.situacao.equals('GERADA')}">Pagar</a>
+
+                    <a th:href="@{/faturas/{id}/cancelar(id=${fatura.id})}" class="btn btn-danger btn-sm"
+                        th:if="${fatura.situacao != null and fatura.situacao.equals('GERADA')}">Cancelar</a>
                 </tr>
             </tbody>
         </table>
         <a th:href="@{/Cliente}" class="btn btn-secondary">Voltar para Clientes</a>
+        <a th:href="@{/}" class="btn btn-secondary mt-3">Voltar ao Menu Principal</a>
     </div>
 </body>
+
 </html>

@@ -25,7 +25,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 
 
-@Table(name = "/faturas")
+@Table(name = "faturas")
 public class Fatura  implements Serializable{
 
     @Id
@@ -44,7 +44,7 @@ public class Fatura  implements Serializable{
 
     private LocalDate dataVencimento;
 
-    @Column(nullable = false,  unique = true)
+    //  @Column(nullable = false,  unique = true)
     private String codigoBoleto;
 
     private LocalDateTime datapPagamento;
@@ -52,6 +52,8 @@ public class Fatura  implements Serializable{
     private LocalDateTime dataGeracao = LocalDateTime.now();
     @ManyToOne
     private Cliente cliente;
+
+    
     
     public void GerarNumeroBoleto(){
         this.numfatura = "BOL-" + LocalDateTime.now().getYear() + "-" + 
@@ -64,17 +66,13 @@ public class Fatura  implements Serializable{
     }
 
     public void setDatapPagamento(LocalDate dataPagamento) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setDatapPagamento'");
+        this.datapPagamento = dataPagamento.atStartOfDay();
     }
 
-    public void setAnoReferencia(int ano2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setAnoReferencia'");
+    public void setAnoReferencia(int ano){
+        this.ano = ano;
     }
-
-    public void setMesReferencia(int mes2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setMesReferencia'");
+    public void setMesReferenia(int mes){
+        this.mes = mes;
     }
 }

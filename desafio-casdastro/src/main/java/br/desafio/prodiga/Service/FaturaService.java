@@ -1,13 +1,11 @@
 package br.desafio.prodiga.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.FaturaRepository;
@@ -15,9 +13,18 @@ import br.desafio.prodiga.Repository.FaturaRepository;
 @Service
 public class FaturaService {
 
-    @Autowired
     private FaturaRepository faturaRepository;
+    
+    @Autowired
+    private ClienteServico clienteServico;
 
+    public FaturaService(FaturaRepository faturaRepository) {
+        this.faturaRepository = faturaRepository;
+    }
+    
+    public List<Fatura> listarFaturasPorCliente(Long clienteId) {
+        return faturaRepository.findByClienteId(clienteId);
+    }
     public List<Fatura> listarFatura() {
         return faturaRepository.findAll();
     }
@@ -55,13 +62,18 @@ public class FaturaService {
     public List<Fatura> listarFaturasPorSituacao(String situacao) {
         return faturaRepository.findBySituacao(situacao);
     }
-
-    public List<Fatura> listarFaturasPorCliente(Cliente cliente) {
-        return faturaRepository.findByCliente(cliente);
-    }
-
-    public void gerarFaturas(int ano, int mes) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gerarFaturas'");
+    
+    public void gerarFaturas(int ano, int mes, Long clienteId){
+        Cliente cliente = clienteServico.buscarClienteId(clienteId).orElseThrow(() -> new RuntimeException("CLIENTE NÃO ENCONTRADO"));
+        
+        Fatura fatura =  new Fatura();
+        fatura.setCliente(cliente);
+        fatura.setAno(ano);
+        fatura.setMes(mes);
+        fatura.setValor(100.0);
+        fatura.setSituacao("GERADA");
+        fatura.setDataVencimento(LocalDate.now().plusDays(30));
+        fatura.GerarNumFatura();
+        faturaRepository.save(fatura);   
     }
 }
