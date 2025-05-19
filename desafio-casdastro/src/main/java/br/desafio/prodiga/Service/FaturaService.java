@@ -74,6 +74,10 @@ public class FaturaService {
         fatura.setSituacao("GERADA");
         fatura.setDataVencimento(LocalDate.now().plusDays(30));
         fatura.GerarNumFatura();
-        faturaRepository.save(fatura);   
-    }
+        try{
+            faturaRepository.save(fatura);   
+    }catch(Exception e){
+        System.out.println("ERRO:" + e.getMessage());
+        e.printStackTrace();
+    }   }
 }
