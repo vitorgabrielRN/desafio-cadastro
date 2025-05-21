@@ -32,9 +32,10 @@ public class Cliente implements Serializable {
     private String email;
     @NotBlank
     private String endereco;
-    @CPF
-    @Column(unique = true)
+    
+   // @Column(unique = true)
     private String cpf;
+
     @NotBlank
     private String telefone;
 
@@ -54,6 +55,6 @@ public class Cliente implements Serializable {
     }
 
     public static void isPresent(Object object) {
-       
+    
     }
 }
