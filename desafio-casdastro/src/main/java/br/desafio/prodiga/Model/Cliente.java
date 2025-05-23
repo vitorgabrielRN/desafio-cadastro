@@ -21,6 +21,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+
+
+
+
 public class Cliente implements Serializable {
 
     @Id

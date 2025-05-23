@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-
+@EqualsAndHashCode(of = "id")
 
 @Table(name = "faturas")
 public class Fatura  implements Serializable{
@@ -46,6 +47,15 @@ public class Fatura  implements Serializable{
 
     //  @Column(nullable = false,  unique = true)
     private String codigoBoleto;
+
+
+
+
+
+
+
+
+
 
     private LocalDateTime datapPagamento;
 
