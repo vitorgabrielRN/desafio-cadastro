@@ -3,18 +3,12 @@ package br.desafio.prodiga;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("br.desafio.prodiga.Repository")
-@EntityScan("br.desafio.prodiga.Model")
-@ComponentScan("br.desafio.prodiga")
-public class CadastroApplication implements CommandLineRunner {
+public class PrincipalApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CadastroApplication.class, args);
+		SpringApplication.run(PrincipalApplication.class, args);
 	}
 
 	@Override

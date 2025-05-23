@@ -1,57 +1,43 @@
 package br.desafio.prodiga.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.desafio.prodiga.Model.Cliente;
+import br.desafio.prodiga.Model.DadosClientes;
+import br.desafio.prodiga.Model.Endereco;
+import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.ClienteRepository;
 
 @Service
 public class ClienteServico {
 
     @Autowired
-    private  ClienteRepository clienteRepositorio;
+    ClienteRepository repository;
+    private DadosClientes clientes;
+    private Fatura fatura;
 
-    public Cliente cadastrarCliente(String nome, String cpf, String email, String endereco, String telefone) {
+    public ClienteServico(DadosClientes clientes, Fatura fatura) {
+        this.clientes = clientes;
+        this.fatura = fatura;
+    }
 
-        Cliente cliente = new Cliente();
+    public Cliente cadastrar(DadosClientes dados) {
 
         try {
-            System.out.println("cadastrando");
-            cliente.setNome(nome);
-            cliente.setCpf(cpf);
-            cliente.setEmail(email);
-            cliente.setEndereco(endereco);
-            cliente.setTelefone(telefone);
-            return clienteRepositorio.save(cliente);
-        } catch (Exception e) {
+            Cliente cliente = new Cliente();
+
+            cliente.setNome(dados.nome());
+            cliente.setCpf(dados.cpf());
+            cliente.setEmail(dados.email());
+            cliente.setEndereco(new Endereco(dados.endereco()));
+            return repository.save(cliente);
+        } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            return null;
+            throw new IllegalArgumentException("Falha ao cadastrar o cliente", e);
         }
-
     }
-
-    public Cliente salvarCliente(Cliente cliente) {
-        return clienteRepositorio.save(cliente);
-    }
-
-    public Optional<Cliente> buscarClienteId(Long id) {
-        return clienteRepositorio.findById(id);
-    }
-
-    public  List<Cliente> listarClientes() {
-        return clienteRepositorio.findAll();
-    }
-
-    public boolean excluirCliente(Long id) {
-        if (clienteRepositorio.existsById(id)) {
-            clienteRepositorio.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+//TODO GERAR TESTES
 
 }

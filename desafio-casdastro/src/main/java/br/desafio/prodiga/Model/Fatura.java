@@ -8,6 +8,8 @@ import java.util.Random;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
-
 @Table(name = "faturas")
 public class Fatura  implements Serializable{
 
@@ -41,27 +42,29 @@ public class Fatura  implements Serializable{
     
     private Double valor;
 
-    private String situacao;
-
     private LocalDate dataVencimento;
 
     //  @Column(nullable = false,  unique = true)
     private String codigoBoleto;
+    
+    @Enumerated(EnumType.STRING)
+    private Situacao situacao;
 
-
-
-
-
-
-
-
-
-
-    private LocalDateTime datapPagamento;
+    private LocalDateTime dataPagamento;
 
     private LocalDateTime dataGeracao = LocalDateTime.now();
+
     @ManyToOne
     private Cliente cliente;
+
+    // Construtor personalizado com foco nas datas das faturas
+     public Fatura(DataFaturas dados){
+            this.ano = dados.ano();
+            this.mes = dados.mes();
+            this.dataGeracao = dados.dataGeracao();
+            this.dataPagamento = dados.dataPagamento();
+            this.dataVencimento = dados.dataVencimento();
+        }
 
     
     
@@ -76,7 +79,7 @@ public class Fatura  implements Serializable{
     }
 
     public void setDatapPagamento(LocalDate dataPagamento) {
-        this.datapPagamento = dataPagamento.atStartOfDay();
+        this.dataPagamento = dataPagamento.atStartOfDay();
     }
 
     public void setAnoReferencia(int ano){

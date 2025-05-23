@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,12 +31,15 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @NotBlank
     private String nome;
+    
     @Email
     private String email;
-    @NotBlank
-    private String endereco;
+    
+    @NotBlank @Embedded
+    private Endereco endereco;
     
    // @Column(unique = true)
     private String cpf;
@@ -43,22 +47,11 @@ public class Cliente implements Serializable {
     @NotBlank
     private String telefone;
 
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Cliente{");
-        sb.append("id=").append(id);
-        sb.append(", nome=").append(nome);
-        sb.append(", email=").append(email);
-        sb.append(", endereco=").append(endereco);
-        sb.append(", cpf=").append(cpf);
-        sb.append(", telefone=").append(telefone);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    public static void isPresent(Object object) {
-    
+    public Cliente(DadosClientes dados){
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.cpf = dados.cpf();
+        this.telefone = dados.telefone();
+        this.endereco = new Endereco(dados.endereco());
     }
 }
