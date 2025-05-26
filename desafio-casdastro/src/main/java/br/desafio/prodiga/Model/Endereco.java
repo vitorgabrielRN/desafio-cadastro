@@ -1,5 +1,6 @@
 package br.desafio.prodiga.Model;
 
+import br.desafio.prodiga.dto.DadosEndereco;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Endereco {
 
 
     public Endereco(DadosEndereco dados){
-        this.logradouro = dados.logadouro();
+        this.logradouro = dados.logradouro();
         this.bairro = dados.bairro();
         this.cep = dados.cep();
         this.cidade = dados.cidade();

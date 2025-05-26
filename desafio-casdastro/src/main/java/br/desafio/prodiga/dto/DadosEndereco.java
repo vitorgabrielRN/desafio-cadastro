@@ -1,7 +1,7 @@
-package br.desafio.prodiga.Model;
+package br.desafio.prodiga.dto;
 
 public record DadosEndereco(
-    String logadouro,
+    String logradouro,
     String cep,
     String bairro,
     String uf,

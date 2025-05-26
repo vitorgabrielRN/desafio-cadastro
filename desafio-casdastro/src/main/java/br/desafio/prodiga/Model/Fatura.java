@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-
-import jakarta.persistence.Column;
+import br.desafio.prodiga.dto.DataFaturas;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -55,6 +55,7 @@ public class Fatura  implements Serializable{
     private LocalDateTime dataGeracao = LocalDateTime.now();
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     // Construtor personalizado com foco nas datas das faturas
@@ -66,8 +67,6 @@ public class Fatura  implements Serializable{
             this.dataVencimento = dados.dataVencimento();
         }
 
-    
-    
     public void GerarNumeroBoleto(){
         this.numfatura = "BOL-" + LocalDateTime.now().getYear() + "-" + 
         String.format("06d",(int)(Math.random() + 999999)); 

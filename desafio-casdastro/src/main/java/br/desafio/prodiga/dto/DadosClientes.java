@@ -1,8 +1,8 @@
-package br.desafio.prodiga.Model;
-
-
+package br.desafio.prodiga.dto;
 
 public record DadosClientes(
+   
+    
     String nome,
     
     String email,
@@ -11,6 +11,8 @@ public record DadosClientes(
     
     String cpf,
 
-    String telefone) {
+    String telefone) 
+    {
+
 
 }

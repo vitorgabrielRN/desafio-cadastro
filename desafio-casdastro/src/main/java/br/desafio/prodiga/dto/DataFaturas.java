@@ -1,4 +1,4 @@
-package br.desafio.prodiga.Model;
+package br.desafio.prodiga.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
