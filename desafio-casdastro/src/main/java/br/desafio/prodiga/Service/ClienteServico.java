@@ -1,56 +1,79 @@
 package br.desafio.prodiga.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Endereco;
 import br.desafio.prodiga.Repository.ClienteRepository;
 import br.desafio.prodiga.dto.DadosClientes;
+import jakarta.validation.Valid;
 
 @Service
 public class ClienteServico {
 
     @Autowired
-    ClienteRepository repository;
+    private ClienteRepository repository;
 
-    public Cliente cadastrar(DadosClientes dados) {
-
-        try {
-            Cliente cliente = new Cliente();
-
-            cliente.setNome(dados.nome());
-            cliente.setCpf(dados.cpf());
-            cliente.setEmail(dados.email());
-            cliente.setEndereco(new Endereco(dados.endereco()));
-            return repository.save(cliente);
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("Falha ao cadastrar o cliente", e);
-        }
-    }
-    
-    public Cliente salvarCliente(Cliente cliente){
+    public Cliente cadastrarCliente(DadosClientes dados) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(dados.nome());
+        cliente.setEmail(dados.email());
+        cliente.setCpf(dados.cpf());
+        cliente.setTelefone(dados.telefone());
+        
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro(dados.endereco().logradouro());
+        endereco.setCep(dados.endereco().cep());
+        endereco.setBairro(dados.endereco().bairro());
+        endereco.setUf(dados.endereco().uf());
+        endereco.setCidade(dados.endereco().cidade());
+        
+        cliente.setEndereco(endereco);
+        
         return repository.save(cliente);
     }
 
-    public  List<Cliente> listarTodos(){
+    public Cliente atualizarCliente(Long id, DadosClientes dados) {
+        Cliente cliente = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+        
+        cliente.setNome(dados.nome());
+        cliente.setEmail(dados.email());
+        cliente.setTelefone(dados.telefone());
+        
+        Endereco endereco = cliente.getEndereco();
+        endereco.setLogradouro(dados.endereco().logradouro());
+        endereco.setCep(dados.endereco().cep());
+        endereco.setBairro(dados.endereco().bairro());
+        endereco.setUf(dados.endereco().uf());
+        endereco.setCidade(dados.endereco().cidade());
+        
+        return repository.save(cliente);
+    }
+
+    public List<Cliente> listarTodos() {
         return repository.findAll();
     }
 
-    public Optional<Cliente> buscarPorId(Long id){
-        return repository.findById(id);
+    public Cliente buscarPorId(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
     }
 
-    public boolean excluirCliente(Long id){
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-            return true;
+    public void excluirCliente(Long id) {
+        repository.deleteById(id);
+    }
+
+    public void salvar(Cliente cliente) {
+    repository.save(cliente);
+    }
+
+    public void atualizar(Cliente cliente) {
+       if (cliente.getId() == null) {
+            throw new IllegalArgumentException("ID do cliente não pode ser nulo para atualização");
         }
-        return false;
+        repository.save(cliente);
     }
 }

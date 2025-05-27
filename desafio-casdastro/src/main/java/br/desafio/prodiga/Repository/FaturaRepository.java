@@ -10,4 +10,5 @@ import br.desafio.prodiga.Model.Situacao;
 @Repository
 public interface FaturaRepository extends JpaRepository<Fatura, Long> {
        List<Fatura> findBySituacao(Situacao situacao);
+       List<Fatura> findByClienteId(Long clienteId);
 }

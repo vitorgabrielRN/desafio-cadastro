@@ -1,5 +1,7 @@
 package br.desafio.prodiga.Service;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,68 +13,60 @@ import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Model.Situacao;
 import br.desafio.prodiga.Repository.ClienteRepository;
 import br.desafio.prodiga.Repository.FaturaRepository;
-import br.desafio.prodiga.dto.DataFaturas;
+import br.desafio.prodiga.dto.DadosFatura;
+import br.desafio.prodiga.dto.DadosGerarFatura;
 
 @Service
 public class FaturaService {
 
     @Autowired
     private FaturaRepository faturaRepository;
-
+    
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public void gerarFaturas(DataFaturas dataFaturas, Long id) {
-        Cliente clienteFatura = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CLIENTE NAO ENCONTRADO"));
-
+    public void gerarFaturas(DadosGerarFatura dados) {
+        Cliente cliente = clienteRepository.findById(dados.clienteId())
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+        
         Fatura fatura = new Fatura();
-        fatura.setAno(dataFaturas.ano());
-        fatura.setMes(dataFaturas.mes());
-        fatura.setValor(100.0);
+        fatura.setAno(dados.ano());
+        fatura.setMes(dados.mes());
+        fatura.setValor(100.0); 
         fatura.setSituacao(Situacao.GERADA);
-        fatura.setCliente(clienteFatura);
+        fatura.setCliente(cliente);
+        fatura.gerarNumFatura();
+        
         faturaRepository.save(fatura);
     }
 
-   
-
-    public void salvarFatura(Fatura fatura) {
-        faturaRepository.save(fatura);
+    public Fatura pagarFatura(Long id, LocalDate dataPagamento) {
+        Fatura fatura = faturaRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Fatura não encontrada"));
+        fatura.setSituacao(Situacao.PAGA);
+        fatura.setDataPagamento(dataPagamento.atStartOfDay());
+        return faturaRepository.save(fatura);
     }
 
-    public List<Fatura> listarFatura() {
-        return faturaRepository.findAll();
+    public Fatura cancelarFatura(Long id) {
+        Fatura fatura = faturaRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Fatura não encontrada"));
+        fatura.setSituacao(Situacao.CANCELADA);
+        return faturaRepository.save(fatura);
     }
 
-    public Optional<Fatura> listaPorId(Long id) {
+    public Optional<Fatura> buscarPorId(Long id) {
         return faturaRepository.findById(id);
     }
 
-    public List<Fatura> listarFaturasPorSituacao(Situacao situacao) {
-        return faturaRepository.findBySituacao(situacao);
+    public List<Fatura> listarFaturasPorCliente(Long clienteId) {
+        return faturaRepository.findByClienteId(clienteId);
+    }
+     public List<Fatura> listarTodos() {
+        return faturaRepository.findAll();
     }
 
-    public Fatura pagarFatura(Long id, DataFaturas dataFaturas) {
-        Optional<Fatura> faturaOptional = faturaRepository.findById(id);
-        if (faturaOptional.isPresent()) {
-            Fatura fatura = faturaOptional.get();
-            fatura.setDataPagamento(dataFaturas.dataPagamento());
-            fatura.setSituacao(Situacao.PAGA);
-            return faturaRepository.save(fatura);
-        } else {
-            throw new RuntimeException("ERRO AO CRIAR FATURA");
-        }
-    }
-
-    public Fatura cancelFatura(Long id) {
-        Optional<Fatura> faturaCancelada = faturaRepository.findById(id);
-        if (faturaCancelada.isPresent()) {
-            Fatura fatura = faturaCancelada.get();
-            fatura.setSituacao(Situacao.CANCELADA);
-            return faturaRepository.save(fatura);
-        } else {
-            throw new RuntimeException("ERRO AO CANCELAR FATURA");
-        }
-    }
+     public List<Fatura>listarFatura() {
+       return faturaRepository.findAll();
+     }
 }

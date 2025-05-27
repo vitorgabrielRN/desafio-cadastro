@@ -9,8 +9,4 @@ public record DataFaturas(
     LocalDate dataVencimento, 
     LocalDateTime dataGeracao, 
     LocalDateTime dataPagamento) {
-
-
-       
-
 }
