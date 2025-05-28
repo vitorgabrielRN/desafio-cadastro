@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Endereco;
 import br.desafio.prodiga.Repository.ClienteRepository;
-import br.desafio.prodiga.dto.DadosClientes;
-import jakarta.validation.Valid;
+import br.desafio.prodiga.dto.Cliente.DadosClientes;
 
 @Service
 public class ClienteServico {
@@ -72,7 +71,7 @@ public class ClienteServico {
 
     public void atualizar(Cliente cliente) {
        if (cliente.getId() == null) {
-            throw new IllegalArgumentException("ID do cliente não pode ser nulo para atualização");
+            throw new IllegalArgumentException("Id não pode ser nulo para atualização");
         }
         repository.save(cliente);
     }

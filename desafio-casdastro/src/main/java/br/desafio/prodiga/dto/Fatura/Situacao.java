@@ -1,4 +1,4 @@
-package br.desafio.prodiga.Model;
+package br.desafio.prodiga.dto.Fatura;
 
 public enum Situacao {
      GERADA,

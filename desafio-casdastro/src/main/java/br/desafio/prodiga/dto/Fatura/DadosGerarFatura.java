@@ -1,4 +1,4 @@
-package br.desafio.prodiga.dto;
+package br.desafio.prodiga.dto.Fatura;
 
 public record DadosGerarFatura(
     int ano,

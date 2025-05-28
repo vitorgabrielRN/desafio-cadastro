@@ -5,7 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-import br.desafio.prodiga.dto.DataFaturas;
+import br.desafio.prodiga.dto.Fatura.DataFaturas;
+import br.desafio.prodiga.dto.Fatura.Situacao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

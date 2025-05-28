@@ -1,4 +1,6 @@
-package br.desafio.prodiga.dto;
+package br.desafio.prodiga.dto.Cliente;
+
+import br.desafio.prodiga.dto.DadosEndereco;
 
 public record DadosClientes(
     String nome,

@@ -1,4 +1,4 @@
-package br.desafio.prodiga.dto;
+package br.desafio.prodiga.dto.Fatura;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

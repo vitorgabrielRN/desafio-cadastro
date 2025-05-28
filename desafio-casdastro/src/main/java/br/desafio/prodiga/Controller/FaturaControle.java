@@ -14,13 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
-import br.desafio.prodiga.Model.Situacao;
 import br.desafio.prodiga.Service.ClienteServico;
 import br.desafio.prodiga.Service.FaturaService;
-import br.desafio.prodiga.dto.DadosFatura;
-import br.desafio.prodiga.dto.DadosGerarFatura;
-import br.desafio.prodiga.dto.DadosListaClientes;
-import br.desafio.prodiga.dto.DadosPagamentoFatura;
+import br.desafio.prodiga.dto.Cliente.DadosListaClientes;
+import br.desafio.prodiga.dto.Fatura.DadosFatura;
+import br.desafio.prodiga.dto.Fatura.DadosGerarFatura;
+import br.desafio.prodiga.dto.Fatura.DadosPagamentoFatura;
+import br.desafio.prodiga.dto.Fatura.Situacao;
 import jakarta.validation.Valid;
 
 @Controller

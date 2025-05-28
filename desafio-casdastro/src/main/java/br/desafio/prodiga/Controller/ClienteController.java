@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Service.ClienteServico;
-import br.desafio.prodiga.dto.DadosListaClientes;
+import br.desafio.prodiga.dto.Cliente.DadosListaClientes;
 import jakarta.validation.Valid;
 
 @Controller

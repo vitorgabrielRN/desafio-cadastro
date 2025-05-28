@@ -1,10 +1,9 @@
-package br.desafio.prodiga.dto;
+package br.desafio.prodiga.dto.Fatura;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import br.desafio.prodiga.Model.Fatura;
-import br.desafio.prodiga.Model.Situacao;
 
 public record DadosFatura(
     Long id,
