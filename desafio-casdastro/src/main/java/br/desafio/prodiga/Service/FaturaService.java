@@ -1,5 +1,7 @@
 package br.desafio.prodiga.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -29,27 +31,20 @@ public class FaturaService {
     }
 
     
+
+  //TODO Verificar novamente esse
     public List<Fatura> gerarFaturas(DadosGerarFatura dados) {
         validarDadosGeracao(dados);
         
         if (dados.clienteId() != null) {
-            return Collections.singletonList(gerarFaturaParaCliente(dados));
-        } else {
-            return gerarFaturasParaTodosClientes(dados);
-        }
-    }
-  //TODO Verificar novamente esse
-    private Fatura gerarFaturaParaCliente(DadosGerarFatura dados) {
-        Cliente cliente = clienteRepository.findById(dados.clienteId())
+            Cliente cliente = clienteRepository.findById(dados.clienteId())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        return criarFatura(dados, cliente);
-    }
-
-    private List<Fatura> gerarFaturasParaTodosClientes(DadosGerarFatura dados) {
-        List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.stream()
+            return List.of(criarFatura(dados, cliente));
+        } else {
+            return clienteRepository.findAll().stream()
                 .map(cliente -> criarFatura(dados, cliente))
                 .toList();
+        }
     }
     //TODO  ajustar os valores que estão quebrados demais
 	//TODO dificuldade para atualizar as faturas
@@ -59,7 +54,8 @@ public class FaturaService {
         fatura.setCliente(cliente);
         fatura.setAno(dados.ano());
         fatura.setMes(dados.mes());
-        fatura.setValor(10 + random.nextDouble(2) * 100);
+        fatura.setValor(BigDecimal.valueOf(10 + random.nextDouble() * 90)
+            .setScale(2, RoundingMode.HALF_UP).doubleValue());
         fatura.setDataVencimento(LocalDate.now().plusDays(30));
         fatura.setSituacao(Situacao.GERADA);
         fatura.setCodigoBoleto(gerarCodigoBoleto());
@@ -67,21 +63,20 @@ public class FaturaService {
         
         return faturaRepository.save(fatura);
     }
-
-    private String gerarCodigoBoleto() {
-        return String.format("%047d", random.nextLong()).substring(0, 47);
-    }
     //TODO precisa reajustar pra buscar por id e atualizar o dia do pagamento e a situacao no banco de dados "Transacionaç"
     public Fatura pagarFatura(Long id, LocalDate dataPagamento) {
-        Fatura fatura = buscarPorId(id)
-                .orElseThrow(() -> new IllegalArgumentException("Fatura não encontrada"));
-
-        validarPagamento(fatura, dataPagamento);
-
+        Fatura fatura = faturaRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Fatura não encontrada"));
+        
+        if (fatura.getSituacao() != Situacao.GERADA) {
+            throw new IllegalStateException("Só é possível pagar faturas com situação GERADA");
+        }
+        
         fatura.setSituacao(Situacao.PAGA);
         fatura.setDataPagamento(dataPagamento.atStartOfDay());
         return faturaRepository.save(fatura);
     }
+
     //TODO verificar se a validaçao está correta ou não
     private void validarPagamento(Fatura fatura, LocalDate dataPagamento) {
         if (fatura.getSituacao() == Situacao.PAGA) {
@@ -140,4 +135,13 @@ public class FaturaService {
             throw new IllegalArgumentException("Ano inválido");
         }
     }
+    private String gerarCodigoBoleto() {
+    Random random = new Random();
+    StringBuilder codigo = new StringBuilder();
+    for (int i = 0; i < 47; i++) {
+        codigo.append(random.nextInt(10));
+    }
+    return codigo.toString();
 }
+  }
+    

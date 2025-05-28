@@ -64,9 +64,22 @@ public class FaturaRestController {
                     .body("Erro ao gerar faturas: " + e.getMessage());
         }
     }
+
+     @GetMapping("/{id}")
+    public ResponseEntity<?> buscarFaturaPorId(@PathVariable Long id) {
+        try {
+            Fatura fatura = faturaService.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Fatura não encontrada"));
+            return ResponseEntity.ok(new DadosFatura(fatura));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro ao buscar fatura");
+        }
+    }
     //TODO reajustar isso pra atualizar o pagamento e atualizar no bano de dados
     //TODO Verificar se o transactional é valido aqui ou nõo
-    @PutMapping("/{id}/pagar")
+     @PutMapping("/{id}/pagar")
     @Transactional
     public ResponseEntity<?> pagarFatura(
             @PathVariable Long id,
@@ -81,12 +94,12 @@ public class FaturaRestController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                    .body("Erro ao processar pagamento: " + e.getMessage());
+                .body("Erro ao processar pagamento: " + e.getMessage());
         }
     }
 
-    @PostMapping("/{id}/cancelar")
     //TODO Verificar se o transactional é valido aqui ou nõo
+    @PostMapping("/{id}/cancelar")
     public ResponseEntity<?> cancelarFatura(@PathVariable Long id) {
         try {
             Fatura fatura = faturaService.cancelarFatura(id);
