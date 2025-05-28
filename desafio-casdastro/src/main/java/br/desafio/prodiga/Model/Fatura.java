@@ -68,12 +68,13 @@ public class Fatura implements Serializable {
         this.dataVencimento = dados.dataVencimento();
     }
 
+    
+
     public void gerarNumFatura() {
         this.numfatura = "FAT-" + LocalDateTime.now().getYear() +
                 LocalDateTime.now().getMonthValue() +
                 "-" + String.format("%06d", new Random().nextInt(10000));
     }
-
     public void setDatapPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento.atStartOfDay();
     }

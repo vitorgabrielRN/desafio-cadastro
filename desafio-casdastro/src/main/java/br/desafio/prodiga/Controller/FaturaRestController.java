@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Service.ClienteServico;
 import br.desafio.prodiga.Service.FaturaService;
 import br.desafio.prodiga.dto.Fatura.DadosFatura;
@@ -23,12 +26,12 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/faturas")
 public class FaturaRestController {
+    
     @Autowired
-    private  ClienteServico clienteServico;
+    private ClienteServico clienteServico;
+    
     @Autowired
-    private  FaturaService faturaService;
-
-   
+    private FaturaService faturaService;
 
     @GetMapping
     public ResponseEntity<List<DadosFatura>> listarFaturas() {
@@ -49,8 +52,11 @@ public class FaturaRestController {
         }
 
         try {
-            List<DadosFatura> faturasGeradas = faturaService.gerarFaturas(dados);
-            return ResponseEntity.status(HttpStatus.CREATED).body(faturasGeradas);
+            List<Fatura> faturasGeradas = faturaService.gerarFaturas(dados);
+            List<DadosFatura> response = faturasGeradas.stream()
+                    .map(DadosFatura::new)
+                    .toList();
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -58,15 +64,17 @@ public class FaturaRestController {
                     .body("Erro ao gerar faturas: " + e.getMessage());
         }
     }
-
-    @PostMapping("/{id}/pagar")
+    //TODO reajustar isso pra atualizar o pagamento e atualizar no bano de dados
+    //TODO Verificar se o transactional é valido aqui ou nõo
+    @PutMapping("/{id}/pagar")
+    @Transactional
     public ResponseEntity<?> pagarFatura(
             @PathVariable Long id,
             @RequestBody @Valid DadosPagamentoFatura dados) {
         
         try {
-            DadosFatura fatura = new DadosFatura(faturaService.pagarFatura(id, dados.dataPagamento()));
-            return ResponseEntity.ok(fatura);
+            Fatura fatura = faturaService.pagarFatura(id, dados.dataPagamento());
+            return ResponseEntity.ok(new DadosFatura(fatura));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (IllegalStateException e) {
@@ -78,10 +86,11 @@ public class FaturaRestController {
     }
 
     @PostMapping("/{id}/cancelar")
+    //TODO Verificar se o transactional é valido aqui ou nõo
     public ResponseEntity<?> cancelarFatura(@PathVariable Long id) {
         try {
-            DadosFatura fatura = new DadosFatura(faturaService.cancelarFatura(id));
-            return ResponseEntity.ok(fatura);
+            Fatura fatura = faturaService.cancelarFatura(id);
+            return ResponseEntity.ok(new DadosFatura(fatura));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         } catch (IllegalStateException e) {

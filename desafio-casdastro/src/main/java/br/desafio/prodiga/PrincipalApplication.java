@@ -16,6 +16,11 @@ public class PrincipalApplication implements CommandLineRunner {
 		System.out.println("funciona");
 	}
 
+	//TODO  ajustar os valores que estão quebrados demais
+	//TODO dificuldade para atualizar as faturas
+	//TODO não está conseguindo pagar as faturas 
+	
+
 
 
 }
