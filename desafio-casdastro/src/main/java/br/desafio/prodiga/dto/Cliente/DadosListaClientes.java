@@ -1,7 +1,7 @@
 package br.desafio.prodiga.dto.Cliente;
 
 import br.desafio.prodiga.Model.Cliente;
-import br.desafio.prodiga.dto.DadosEndereco;
+import br.desafio.prodiga.Model.DadosEndereco;
 
 
 public record DadosListaClientes(

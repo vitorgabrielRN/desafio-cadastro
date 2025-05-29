@@ -7,7 +7,7 @@ import br.desafio.prodiga.Model.Fatura;
 
 public record DadosFatura(
     Long id,
-    String numfatura,
+    String numFatura,
     int mes,
     int ano,
     double valor,

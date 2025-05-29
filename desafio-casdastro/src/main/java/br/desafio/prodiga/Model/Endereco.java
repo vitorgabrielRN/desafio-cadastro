@@ -1,6 +1,5 @@
 package br.desafio.prodiga.Model;
 
-import br.desafio.prodiga.dto.DadosEndereco;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

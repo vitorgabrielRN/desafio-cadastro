@@ -1,0 +1,21 @@
+public ResponseEntity<?> gerarFaturas(
+            @RequestBody @Valid DadosGerarFatura dados,
+            BindingResult result) {
+        
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+
+        try {
+            List<Fatura> faturasGeradas = faturaService.gerarFaturas(dados);
+            List<DadosFatura> response = faturasGeradas.stream()
+                    .map(DadosFatura::new)
+                    .toList();
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Erro ao gerar faturas: " + e.getMessage());
+        }
+    }

@@ -1,4 +1,4 @@
-package br.desafio.prodiga.dto;
+package br.desafio.prodiga.Model;
 
 public record DadosEndereco(
     String logradouro,
