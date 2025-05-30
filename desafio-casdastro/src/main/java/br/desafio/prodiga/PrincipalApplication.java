@@ -1,28 +1,19 @@
 package br.desafio.prodiga;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PrincipalApplication implements CommandLineRunner {
+public class PrincipalApplication  {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrincipalApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
 		System.out.println("funciona");
 	}
 
-	//TODO  ajustar os valores que estão quebrados demais
-	//TODO dificuldade para atualizar as faturas
-	//TODO não está conseguindo pagar as faturas
-
-	//TODO Revisar novamente as coisas
-
-
+	
+	
+  
 
 }
 // URLS

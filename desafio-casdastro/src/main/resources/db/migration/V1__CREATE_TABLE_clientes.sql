@@ -1,0 +1,12 @@
+CREATE TABLE cliente (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    logradouro VARCHAR(100) NOT NULL,
+    bairro VARCHAR(50) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    uf VARCHAR(2) NOT NULL
+);
