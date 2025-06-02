@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Faturas do Cliente</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .generate-form {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .status-gerada { color: #d35400; }
+        .status-paga { color: #27ae60; }
+        .status-cancelada { color: #c0392b; }
+        .back-link { display: inline-block; margin-top: 15px; }
+        button {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #2980b9; }
+        .action-link { color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Faturas de <span th:text="${cliente.nome}"></span></h1>
+    <a href="/clientes">↩ Voltar para clientes</a>
+</div>
+
+<div class="generate-form">
+    <form th:action="@{/faturas/gerar/{clienteId}(clienteId=${cliente.id})}" method="post">
+        <label for="mesReferencia">Gerar nova fatura para o mês/ano:</label>
+        <input type="month" id="mesReferencia" name="mesReferencia" required>
+        <button type="submit">Gerar Fatura</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Número</th>
+        <th>Mês/Referência</th>
+        <th>Valor (R$)</th>
+        <th>Vencimento</th>
+        <th>Situação</th>
+        <th>Código Boleto</th>
+        <th>Pagamento</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="fatura : ${faturas}">
+        <td th:text="${fatura.numeroFatura}">FAT-001</td>
+        <td th:text="${fatura.mesReferencia}">2023-10</td>
+        <td th:text="${#numbers.formatDecimal(fatura.valor, 1, 2)}">85,50</td>
+        <td th:text="${fatura.dataVencimento}">2023-11-15</td>
+        <td>
+                    <span th:class="${'status-' + fatura.situacao.name().toLowerCase()}"
+                          th:text="${fatura.situacao}">
+                    </span>
+        </td>
+        <td th:text="${fatura.codigoBoleto}">BOL1234567890</td>
+        <td th:text="${fatura.dataPagamento ?: '-'}">-</td>
+        <td>
+            <a th:if="${fatura.situacao.name() == 'GERADA'}"
+               class="action-link"
+               th:href="@{/api/banco/pagamento/{id}(id=${fatura.id})}">
+                Simular Pagamento
+            </a>
+            <span th:if="${fatura.situacao.name() != 'GERADA'}">-</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${faturas.empty}" style="margin-top: 20px; color: #666;">
+    Nenhuma fatura gerada para este cliente ainda.
+</div>
+</body>
+</html>

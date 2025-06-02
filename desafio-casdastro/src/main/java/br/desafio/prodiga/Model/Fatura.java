@@ -1,53 +1,36 @@
 package br.desafio.prodiga.Model;
 
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import br.desafio.prodiga.dto.Fatura.Situacao;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import java.time.LocalDate;
 
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Table(name = "fatura")
+@Table(name = "faturas")
+@Entity
 public class Fatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String numeroFatura;
-    private int mes;
-    private int ano;
+    private String mesReferencia;
     private Double valor;
     private LocalDate dataVencimento;
-    private String codigoBoleto;
-    
+
     @Enumerated(EnumType.STRING)
-    private Situacao situacao = Situacao.GERADA;
-    
-    private LocalDateTime dataPagamento;
-    private LocalDateTime dataGeracao = LocalDateTime.now();
-    
-    @ManyToOne(fetch = FetchType.LAZY)
+    private SituacaoFatura situacao = SituacaoFatura.GERADA;
+
+    private String codigoBoleto;
+    private LocalDate dataPagamento;
+
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    public Fatura() {
 
+    }
 }

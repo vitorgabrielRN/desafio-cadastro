@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${cliente.id} ? 'Editar Cliente' : 'Cadastrar Cliente'"></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-actions { margin-top: 20px; }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #45a049; }
+        .back-link { display: inline-block; margin-top: 15px; }
+    </style>
+</head>
+<body>
+<h1 th:text="${cliente.id} ? 'Editar Cliente: ' + ${cliente.nome} : 'Cadastrar Novo Cliente'"></h1>
+
+<form th:action="@{/clientes}" th:object="${cliente}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <div class="form-group">
+        <label for="nome">Nome Completo:</label>
+        <input type="text" id="nome" th:field="*{nome}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" th:field="*{cpf}" placeholder="000.000.000-00" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="exemplo@email.com" required>
+    </div>
+
+    <div class="form-group">
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" th:field="*{endereco}" placeholder="Rua, Número, Bairro, Cidade" required>
+    </div>
+
+    <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" th:field="*{telefone}" placeholder="(00) 00000-0000" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit">Salvar Cliente</button>
+    </div>
+</form>
+
+<a href="/clientes" class="back-link">← Voltar para lista de clientes</a>
+</body>
+</html>
