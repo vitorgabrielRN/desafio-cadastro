@@ -1,0 +1,25 @@
+1 - rodar esse programa lá em casa!
+2 - ajustar o banco de dados pra relacionar as duas tabelas e facilitar as situações.
+
+cliente ---- cliente-fatura ----- fatura 
+dados        Cliente_id           DadosFatura
+cliente      Dados fatura
+-------------------mudanças no banco de dados postgres ---------------
+
+3 -depois separar mais ainda a aplicação web, visando ela só gerar as faturas e o crud clientes.
+verificar tudo está ok e depois Ajustar as requisições dele para retornar corretamente.
+PADRONIZAR AS URLS DAS requisições WEB.
+
+----------- AÇOES separadas ------------------------------------------
+ 4 -AQUI é API SIMULADA(MOCK) DO BANCO 
+
+começar o ajuste a implementação da apiBancaria via mock pra testar.
+
+
+
+
+1 corrigir tabelas;
+2 corrigir aplicação web (htmls e controllers)
+2.1 - testar as requisições
+3 implementação da apiBancaria;
+4 - testes iniciai

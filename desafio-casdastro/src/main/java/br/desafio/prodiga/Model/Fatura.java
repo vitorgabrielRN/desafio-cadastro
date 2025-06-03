@@ -2,52 +2,51 @@ package br.desafio.prodiga.Model;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Random;
 
-import br.desafio.prodiga.dto.Fatura.Situacao;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import br.desafio.prodiga.Enums.SituacaoFatura;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
-@Entity
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "fatura")
 public class Fatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String numeroFatura;
-    private int mes;
-    private int ano;
+
+    private String mesAnoReferencia; 
+    
     private Double valor;
+    
     private LocalDate dataVencimento;
-    private String codigoBoleto;
     
     @Enumerated(EnumType.STRING)
-    private Situacao situacao = Situacao.GERADA;
+    private SituacaoFatura situacao;
     
-    private LocalDateTime dataPagamento;
-    private LocalDateTime dataGeracao = LocalDateTime.now();
+    private String codigoBoleto;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    private LocalDate dataPagamento; 
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id") 
     private Cliente cliente;
 
+    public static Double gerarValorAleatorio() {
+        Random random = new Random();
+        return 10.0 + (100.0 - 10.0) * random.nextDouble();
+    }
 
+    public static String gerarCodigoBoleto() {
+        return "BOLETO-" + System.currentTimeMillis();
+    }
 }

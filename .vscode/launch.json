@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PrincipalApplication<desafio-casdastro>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.desafio.prodiga.PrincipalApplication",
+            "projectName": "desafio-casdastro",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
