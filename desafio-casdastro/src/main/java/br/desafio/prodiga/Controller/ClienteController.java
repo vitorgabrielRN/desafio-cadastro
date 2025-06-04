@@ -18,30 +18,30 @@ import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Service.ClienteService;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes") 
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping
+    @PostMapping 
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
         Cliente novoCliente = clienteService.salvarCliente(cliente);
         return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping 
     public ResponseEntity<List<Cliente>> listarClientes() {
         List<Cliente> clientes = clienteService.listarClientes();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") 
     public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
         return clienteService.buscarClientePorId(id)
                 .map(cliente -> new ResponseEntity<>(cliente, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }   
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {

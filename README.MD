@@ -39,3 +39,28 @@ bairro: Tapana
 cep: 66825-020
 cidade: Para
 uf: pa
+
+
+
+para buscar no banco de dados
+
+
+
+select * from clientes;
+select * from faturas;
+SELECT
+    c.nome AS nome_cliente,
+    c.cpf AS cpf_cliente,
+    f.numero_fatura,
+    f.mes_ano_referencia,
+    f.valor,
+    f.data_vencimento,
+    f.situacao,
+    f.codigo_boleto,
+    f.data_pagamento
+FROM
+    faturas f
+JOIN
+    clientes c ON f.cliente_id = c.id
+ORDER BY
+    c.nome, f.data_vencimento;

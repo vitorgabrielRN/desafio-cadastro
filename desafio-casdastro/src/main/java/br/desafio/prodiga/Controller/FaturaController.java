@@ -22,7 +22,7 @@ import br.desafio.prodiga.Service.ClienteService;
 import br.desafio.prodiga.Service.FaturaService;
 
 @RestController
-@RequestMapping("/faturas")
+@RequestMapping("/api/faturas")
 public class FaturaController {
 
     @Autowired
