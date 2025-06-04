@@ -15,14 +15,14 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class FaturaService {
-    //Espero que seja 
+    //Espero que esteja correto
 
     @Autowired
     private FaturaRepository faturaRepository;
 
     @Autowired
     private ClienteRepository clienteRepository;
-
+    //sera se vou precisar! pelo menos está ai.
     @Transactional
     public List<Fatura> gerarFaturasParaTodosClientes(String mesAnoReferencia) {
         List<Cliente> clientes = clienteRepository.findAll();

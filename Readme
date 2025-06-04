@@ -18,8 +18,14 @@ começar o ajuste a implementação da apiBancaria via mock pra testar.
 
 
 
-1 corrigir tabelas;
-2 corrigir aplicação web (htmls e controllers)
-2.1 - testar as requisições
-3 implementação da apiBancaria;
+1 corrigir tabelas; ok
+2 corrigir aplicação web (htmls e controllers) ok
+2.1 - testar as requisições ok
+3 implementação da apiBancaria;  
 4 - testes iniciail
+
+
+agora é a criação do pull request da versão estabilizada das coisas e a implementação da apibancaria e depois só testar!
+ 1 - criação do pull
+ 2 - implementação do api
+ 3 - teste 
