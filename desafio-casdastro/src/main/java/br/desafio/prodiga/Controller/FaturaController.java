@@ -89,4 +89,7 @@ public class FaturaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //TODO metodo de registrar boleto(parecer algo externo e devolver via callback/webhook)
+    //pesquisar mais sobre
 }

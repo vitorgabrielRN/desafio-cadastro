@@ -46,7 +46,7 @@ public class Fatura {
         Random random = new Random();
         return 10.0 + (100.0 - 10.0) * random.nextDouble();
     }
-
+    //TODO apagar usar na api banco endpoint
     public static String gerarCodigoBoleto() {
         return "BOLETO-" + System.currentTimeMillis();
     }

@@ -46,7 +46,7 @@ public class FaturaService {
         fatura.setValor(Fatura.gerarValorAleatorio()); 
         fatura.setDataVencimento(LocalDate.now().plusDays(30));
         fatura.setSituacao(SituacaoFatura.GERADA);
-        fatura.setCodigoBoleto(Fatura.gerarCodigoBoleto()); 
+        fatura.setCodigoBoleto(Fatura.gerarCodigoBoleto()); //TODO chamar boletoservice registrarboleto
         fatura.setNumeroFatura("FAT-" + System.currentTimeMillis()); 
 
         
