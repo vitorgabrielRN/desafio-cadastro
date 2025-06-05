@@ -44,7 +44,7 @@ public class FaturaService {
         fatura.setCliente(cliente);
         fatura.setMesAnoReferencia(mesAnoReferencia);
         fatura.setValor(Fatura.gerarValorAleatorio()); 
-        fatura.setDataVencimento(LocalDate.now().plusDays(30)); 
+        fatura.setDataVencimento(LocalDate.now().plusDays(30));
         fatura.setSituacao(SituacaoFatura.GERADA);
         fatura.setCodigoBoleto(Fatura.gerarCodigoBoleto()); 
         fatura.setNumeroFatura("FAT-" + System.currentTimeMillis()); 
@@ -90,7 +90,7 @@ public class FaturaService {
                         fatura.setSituacao(SituacaoFatura.PAGA);
                         fatura.setDataPagamento(LocalDate.now());
                         return faturaRepository.save(fatura);
-                    } else {
+        } else {
                         throw new IllegalStateException("A fatura não pode ser paga no estado atual: " + fatura.getSituacao());
                     }
                 })
