@@ -31,6 +31,7 @@ public class Fatura {
     private LocalDate dataVencimento;
     
     @Enumerated(EnumType.STRING)
+     @Column(name = "situacao")
     private SituacaoFatura situacao;
     
     private String codigoBoleto;
