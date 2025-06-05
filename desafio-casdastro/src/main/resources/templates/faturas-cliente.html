@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Faturas do Cliente - <span th:text="${cliente.nome}"></span></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 th:if="${cliente}">Faturas do Cliente: <span th:text="${cliente.nome}"></span></h1>
+        <h1 th:unless="${cliente}">Cliente não encontrado</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <a th:href="@{/clientes}" class="btn btn-secondary mb-3">Voltar para Clientes</a>
+
+        <h3 class="mt-4">Gerar Nova Fatura</h3>
+        <form th:action="@{/faturas/gerar-para-cliente/{id}(id=${cliente.id})}" method="post" class="form-inline mb-4">
+            <div class="form-group mr-2">
+                <label for="mesAnoReferencia" class="sr-only">Mês/Ano de Referência:</label>
+                <input type="text" id="mesAnoReferencia" name="mesAnoReferencia" class="form-control"
+                       th:value="${mesAnoAtual}" pattern="\d{2}/\d{4}" placeholder="MM/AAAA" required>
+            </div>
+            <button type="submit" class="btn btn-success">Gerar Fatura</button>
+        </form>
+
+        <h3>Lista de Faturas</h3>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nº Fatura</th>
+                    <th>Referência</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Situação</th>
+                    <th>Cód. Boleto</th>
+                    <th>Data Pagamento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fatura : ${faturas}">
+                    <td th:text="${fatura.id}"></td>
+                    <td th:text="${fatura.numeroFatura}"></td>
+                    <td th:text="${fatura.mesAnoReferencia}"></td>
+                    <td th:text="${#numbers.formatCurrency(fatura.valor)}"></td>
+                    <td th:text="${#temporals.format(fatura.dataVencimento, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${fatura.situacao}"></td>
+                    <td th:text="${fatura.codigoBoleto}"></td>
+                    <td th:text="${fatura.dataPagamento != null ? #temporals.format(fatura.dataPagamento, 'dd/MM/yyyy') : 'N/A'}"></td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <form th:if="${fatura.situacao.name() == 'GERADA'}"
+                                  th:action="@{/faturas/pagar/{id}(id=${fatura.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-success mr-1" onclick="return confirm('Confirmar pagamento desta fatura?');">Pagar</button>
+                            </form>
+                            <form th:if="${fatura.situacao.name() == 'GERADA'}"
+                                  th:action="@{/faturas/cancelar/{id}(id=${fatura.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Tem certeza que deseja cancelar esta fatura?');">Cancelar</button>
+                            </form>
+                            <form th:action="@{/faturas/remover/{id}(id=${fatura.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger ml-1" onclick="return confirm('Tem certeza que deseja remover esta fatura?');">Remover</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/fatura-actions.js}"></script>
+</body>
+</html>

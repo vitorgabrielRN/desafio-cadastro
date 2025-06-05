@@ -1,55 +1,20 @@
-
-body.box {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
-    background-color: #95cdd6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
-
-h1 {
-    color: #1e2220;
-    margin-bottom: 20px;
-}
-input[type="submit"] {
-    background-color: #4ac1d6;
-    color: white;
-    padding: 10px 40px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-.row.g-3 {
-    width: 100%;
-    max-width: 600px; 
-    background-color: #3b4e4a;
-    padding: 20px;
+.container {
+    background-color: #ffffff;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-.col {
-    margin-bottom: 15px;
+h1, h3 {
+    color: #343a40;
 }
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #fafafa;
-    border-radius: 4px;
-    box-sizing: border-box; 
+.table thead th {
+    background-color: #007bff;
+    color: white;
 }
-
-
-
-input[type="submit"]:hover {
-    background-color: #ff0a0a;
+.alert {
+    margin-top: 15px;
 }
