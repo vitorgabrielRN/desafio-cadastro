@@ -36,6 +36,7 @@ public class Fatura {
     
     private String codigoBoleto;
     
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento; 
 
     @ManyToOne
@@ -45,9 +46,5 @@ public class Fatura {
     public static Double gerarValorAleatorio() {
         Random random = new Random();
         return 10.0 + (100.0 - 10.0) * random.nextDouble();
-    }
-    //TODO apagar usar na api banco endpoint
-    public static String gerarCodigoBoleto() {
-        return "BOLETO-" + System.currentTimeMillis();
     }
 }

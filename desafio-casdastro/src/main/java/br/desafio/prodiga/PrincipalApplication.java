@@ -10,9 +10,4 @@ public class PrincipalApplication  {
 		SpringApplication.run(PrincipalApplication.class, args);
 		System.out.println("funciona");
 	}
-
-	
-	
-  
-
 }
