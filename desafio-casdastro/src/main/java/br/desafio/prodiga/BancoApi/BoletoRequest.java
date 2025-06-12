@@ -2,11 +2,19 @@ package br.desafio.prodiga.BancoApi;
 
 import java.time.LocalDate;
 
-public record BoletoRequest(
-    String nomeCliente,
-    Double Valor,
-    LocalDate dataVencimento,
-    Long idFaturaAssociada
-) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BoletoRequest {
+
+    private String nomeCliente;
+    private Double valor;
+    private LocalDate DataVencimento;
+    private Long faturaId;
+
 
 }

@@ -2,13 +2,12 @@ package br.desafio.prodiga.Model;
 
 
 import java.time.LocalDate;
-import java.util.Random;
-
 import br.desafio.prodiga.Enums.SituacaoFatura;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 
 
@@ -23,28 +22,29 @@ public class Fatura {
     private Long id;
     
     private String numeroFatura;
-
+          
     private String mesAnoReferencia; 
-    
+      
     private Double valor;
+
     
+    private LocalDate dataGeracao;
+
     private LocalDate dataVencimento;
     
     @Enumerated(EnumType.STRING)
      @Column(name = "situacao")
     private SituacaoFatura situacao;
     
+    @Column(nullable = true)
     private String codigoBoleto;
     
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento; 
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id") 
+    @JoinColumn(name = "cliente_id", nullable = false) 
     private Cliente cliente;
 
-    public static Double gerarValorAleatorio() {
-        Random random = new Random();
-        return 10.0 + (100.0 - 10.0) * random.nextDouble();
-    }
+
 }

@@ -1,9 +1,12 @@
 package br.desafio.prodiga.Controller;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.format.DistanceFormatter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,16 +47,23 @@ public class WebController {
             redirectAttributes.addFlashAttribute("successMessage", "Cliente cadastrado com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao cadastrar cliente: " + e.getMessage());
+            e.printStackTrace();
         }
         return "redirect:/clientes";
     }
 
     @GetMapping("/clientes/editar/{id}")
     public String exibirFormularioEdicaoCliente(@PathVariable Long id, Model model) {
-        clienteService.buscarClientePorId(id).ifPresentOrElse(
+        try {
+            clienteService.buscarClientePorId(id).ifPresentOrElse(
                 cliente -> model.addAttribute("cliente", cliente),
                 () -> model.addAttribute("errorMessage", "Cliente não encontrado!")
         );
+        } catch (Exception e) {
+            System.err.println("deu erro pra editar o cliente" + e.getMessage());
+            e.printStackTrace();
+            
+        }
         return "editar-cliente"; 
     }
 
@@ -64,6 +74,7 @@ public class WebController {
             redirectAttributes.addFlashAttribute("successMessage", "Cliente atualizado com sucesso!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao atualizar cliente: " + e.getMessage());
+            e.printStackTrace();
         }
         return "redirect:/clientes";
     }
@@ -75,6 +86,7 @@ public class WebController {
             redirectAttributes.addFlashAttribute("successMessage", "Cliente removido com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao remover cliente: " + e.getMessage());
+            e.printStackTrace();
         }
         return "redirect:/clientes";
     }
@@ -97,14 +109,17 @@ public class WebController {
 
   
     @PostMapping("/faturas/gerar-para-cliente/{clienteId}")
-    public String gerarFaturaParaCliente(@PathVariable Long clienteId,
+    public String gerarFaturaParaCliente(@PathVariable Cliente clienteId,
                                         @RequestParam String mesAnoReferencia,
+                                        @RequestParam Double valor,
+                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataVencimento,
                                         RedirectAttributes redirectAttributes) {
         try {
             faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
             redirectAttributes.addFlashAttribute("successMessage", "Fatura gerada com sucesso!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao gerar fatura: " + e.getMessage());
+            e.printStackTrace();
         }
         return "redirect:/faturas/cliente/" + clienteId;
     }
@@ -117,6 +132,7 @@ public class WebController {
             return "redirect:/faturas/cliente/" + fatura.getCliente().getId();
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar pagamento: " + e.getMessage());
+            e.printStackTrace();
            
             return faturaService.buscarFaturaPorId(faturaId)
                     .map(f -> "redirect:/faturas/cliente/" + f.getCliente().getId())
@@ -132,6 +148,7 @@ public class WebController {
             return "redirect:/faturas/cliente/" + fatura.getCliente().getId();
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao cancelar fatura: " + e.getMessage());
+            e.printStackTrace();
           
             return faturaService.buscarFaturaPorId(faturaId)
                     .map(f -> "redirect:/faturas/cliente/" + f.getCliente().getId())
