@@ -5,7 +5,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.format.DistanceFormatter;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -111,8 +111,6 @@ public class WebController {
     @PostMapping("/faturas/gerar-para-cliente/{clienteId}")
     public String gerarFaturaParaCliente(@PathVariable Cliente clienteId,
                                         @RequestParam String mesAnoReferencia,
-                                        @RequestParam Double valor,
-                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataVencimento,
                                         RedirectAttributes redirectAttributes) {
         try {
             faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
