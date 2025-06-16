@@ -19,10 +19,10 @@ public class FaturaController {
     private FaturaService faturaService;
 
 
-     @PostMapping("/gerarcliente/{clienteId}")
+    @PostMapping("/gerarcliente/{clienteId}")
     public ResponseEntity<Fatura> gerarFaturaParaCliente(
-            @PathVariable Cliente clienteId,
-            @RequestParam String mesAnoReferencia) {
+                                               @PathVariable Cliente clienteId,
+                                               @RequestParam String mesAnoReferencia) {
         try {
             Fatura fatura = faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
            

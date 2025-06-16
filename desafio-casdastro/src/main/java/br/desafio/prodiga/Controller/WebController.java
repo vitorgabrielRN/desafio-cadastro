@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,17 +80,25 @@ public class WebController {
         return "redirect:/clientes";
     }
 
-    @GetMapping("/clientes/remover/{id}")
-    public String removerCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            clienteService.removerCliente(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente removido com sucesso!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao remover cliente: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return "redirect:/clientes";
+   @DeleteMapping("/faturas/remover/{faturaId}")
+public String removerFatura(@PathVariable Long faturaId, RedirectAttributes redirectAttributes) {
+    Long clienteId = null;
+    try {
+       
+        faturaService.buscarFaturaPorId(faturaId).ifPresent(fatura -> {
+            
+            redirectAttributes.addAttribute("clienteId", fatura.getCliente().getId());
+        });
+
+        faturaService.removerFatura(faturaId); 
+        redirectAttributes.addFlashAttribute("successMessage", "Fatura removida com sucesso!");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("errorMessage", "Erro ao remover fatura: " + e.getMessage());
+        e.printStackTrace();
     }
+
+    return "redirect:/faturas/cliente/{clienteId}";
+}
 
     
     @GetMapping("/faturas/cliente/{clienteId}")
@@ -108,18 +117,28 @@ public class WebController {
     }
 
   
-    @PostMapping("/faturas/gerar-para-cliente/{clienteId}")
-    public String gerarFaturaParaCliente(@PathVariable Cliente clienteId,
+     @PostMapping("/faturas/gerar-para-cliente/{clienteId}")
+    public String gerarFaturaParaCliente(@PathVariable Long clienteId, 
                                         @RequestParam String mesAnoReferencia,
                                         RedirectAttributes redirectAttributes) {
         try {
+      
             faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
             redirectAttributes.addFlashAttribute("successMessage", "Fatura gerada com sucesso!");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao gerar fatura: " + e.getMessage());
+
+            
+            redirectAttributes.addAttribute("clienteId", clienteId);
+            return "redirect:/faturas/cliente/{clienteId}"; 
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage" + e.getMessage());
+            redirectAttributes.addAttribute("clienteId", clienteId); 
+            return "redirect:/faturas/cliente/{clienteId}";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("Erro inesperado ao gerar fatura: " + e.getMessage());
             e.printStackTrace();
+            redirectAttributes.addAttribute("clienteId", clienteId);
+            return "redirect:/faturas/cliente/{clienteId}";
         }
-        return "redirect:/faturas/cliente/" + clienteId;
     }
 
     @PostMapping("/faturas/pagar/{faturaId}")

@@ -19,10 +19,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class FaturaService {
-
-   
-
-    
     // Espero que esteja correto
 
     @Autowired
@@ -39,8 +35,12 @@ public class FaturaService {
     // acho que nem vai precisar! kkkk acho mais facil ler assim agora.
 
     @Transactional // pra não ficar confuso
-    public  Fatura gerarFaturaParaCliente(Cliente cliente, String mesAnoReferencia) {
+    public  Fatura gerarFaturaParaCliente(Long clienteId, String mesAnoReferencia) {
         //cliente, posso colocar a verificação dps
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                     .orElseThrow(() ->  new RuntimeException("Cliente nao encontrado" ));
+        
         Fatura fatura = new Fatura();
         fatura.setCliente(cliente);
         fatura.setMesAnoReferencia(mesAnoReferencia);
@@ -84,7 +84,11 @@ public class FaturaService {
         }).orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + id));
     }
 
+    @Transactional 
     public void removerFatura(Long id) {
+        if (!faturaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Fatura com ID " + id + " não encontrada para remoção.");
+        }
         faturaRepository.deleteById(id);
     }
 

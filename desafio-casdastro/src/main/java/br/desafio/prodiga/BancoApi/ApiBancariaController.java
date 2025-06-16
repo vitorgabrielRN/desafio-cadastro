@@ -14,7 +14,7 @@ public class ApiBancariaController {
 
     @PostMapping
     public ResponseEntity<BoletoResponse> registrarBoleto(@RequestBody BoletoRequest request) {
-        String boletoId = "BOl" + System.currentTimeMillis();
+        String boletoId = "BOL-" + System.currentTimeMillis();
 
         System.out.println("API Bancária Simulada: Recebido pedido para registrar boleto:");
         System.out.println("  Cliente: " + request.getNomeCliente());

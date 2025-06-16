@@ -5,7 +5,6 @@
     <title>Gerenciamento de Clientes</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-
 </head>
 <body>
     <div class="container mt-5">
@@ -84,7 +83,11 @@
                     <td th:text="${cliente.telefone}"></td>
                     <td>
                         <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-info btn-sm">Editar</a>
-                        <a th:href="@{/clientes/remover/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja remover este cliente?');">Remover</a>
+                        
+                        <button type="button" class="btn btn-danger btn-sm" 
+                                th:attr="data-id=${cliente.id}" 
+                                onclick="confirmDelete(this.getAttribute('data-id'));">Remover</button>
+                        
                         <a th:href="@{/faturas/cliente/{id}(id=${cliente.id})}" class="btn btn-secondary btn-sm">Ver Faturas</a>
                     </td>
                 </tr>
@@ -96,5 +99,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script th:src="@{/js/cliente-form.js}"></script>
+
+    <script>
+        function confirmaDelete(clienteId) {
+            if (confirma('Tem certeza que deseja remover este cliente?')) {
+                
+                var form = document.createElement('form');
+                form.method = 'POST'; 
+                form.action = '/clientes/remover/' + clienteId;
+
+              
+                var hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = '_method';
+                hiddenField.value = 'delete'; 
+                form.appendChild(hiddenField);
+
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </body>
 </html>
