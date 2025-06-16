@@ -7,13 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.desafio.prodiga.BancoApi.BoletoResponse;
 import br.desafio.prodiga.BancoApi.BoletoService;
 import br.desafio.prodiga.Enums.SituacaoFatura;
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.ClienteRepository;
 import br.desafio.prodiga.Repository.FaturaRepository;
+import br.desafio.prodiga.dto.BoletoResponse;
 import br.desafio.prodiga.util.GeradorAleatorio;
 import jakarta.transaction.Transactional;
 

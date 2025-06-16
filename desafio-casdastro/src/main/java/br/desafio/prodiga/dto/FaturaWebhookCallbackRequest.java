@@ -1,4 +1,4 @@
-package br.desafio.prodiga.BancoApi;
+package br.desafio.prodiga.dto;
 
 import java.time.LocalDate;
 

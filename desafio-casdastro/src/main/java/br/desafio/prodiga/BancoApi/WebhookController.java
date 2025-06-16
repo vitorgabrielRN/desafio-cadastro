@@ -12,6 +12,7 @@ import br.desafio.prodiga.Enums.SituacaoFatura;
 import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.FaturaRepository;
 import br.desafio.prodiga.Service.FaturaService;
+import br.desafio.prodiga.dto.FaturaWebhookCallbackRequest;
 import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.PostMapping;

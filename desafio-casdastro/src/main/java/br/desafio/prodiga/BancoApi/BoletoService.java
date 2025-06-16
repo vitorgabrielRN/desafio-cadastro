@@ -9,6 +9,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import br.desafio.prodiga.Model.Fatura;
+import br.desafio.prodiga.dto.BoletoRequest;
+import br.desafio.prodiga.dto.BoletoResponse;
 
     @Service
     public class BoletoService {

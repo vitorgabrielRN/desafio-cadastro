@@ -1,4 +1,4 @@
-package br.desafio.prodiga.BancoApi;
+package br.desafio.prodiga.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

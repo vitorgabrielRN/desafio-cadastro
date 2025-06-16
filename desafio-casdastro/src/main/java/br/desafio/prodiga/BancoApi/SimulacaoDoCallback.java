@@ -10,6 +10,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import br.desafio.prodiga.Enums.SituacaoFatura;
+import br.desafio.prodiga.dto.FaturaWebhookCallbackRequest;
 
 @Service
 public class SimulacaoDoCallback {
