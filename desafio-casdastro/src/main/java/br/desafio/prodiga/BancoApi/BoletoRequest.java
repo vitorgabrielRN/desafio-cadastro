@@ -13,7 +13,7 @@ public class BoletoRequest {
 
     private String nomeCliente;
     private Double valor;
-    private LocalDate DataVencimento;
+    private LocalDate dataVencimento;
     private Long faturaId;
 
 

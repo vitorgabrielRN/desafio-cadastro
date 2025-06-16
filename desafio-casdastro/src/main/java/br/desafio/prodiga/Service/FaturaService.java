@@ -121,13 +121,20 @@ public class FaturaService {
                 .orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + faturaId));
     }
 
-    @Transactional
-    public void atualizarFaturViaWebHook(Long faturaid, SituacaoFatura situacaoFatura, LocalDate dataEvento){
-        Fatura fatura = faturaRepository.findById(faturaid)
-                .orElseThrow(()-> new IllegalArgumentException( "não achou a fatura id " ));
+   @Transactional
+    public void atualizarFaturaViaWebhook(Long faturaId, SituacaoFatura novaSituacao, LocalDate dataEvento) {
+        Fatura fatura = faturaRepository.findById(faturaId)
+                .orElseThrow(() -> new IllegalArgumentException("Fatura com ID " + faturaId + " não encontrada para atualização via webhook."));
 
-        fatura.setSituacao(situacaoFatura);
-        if(situacaoFatura == SituacaoFatura.PAGA){
-        }        
+        System.out.println("Fatura ID " + faturaId + ": Atualizando situação de " + fatura.getSituacao() + " para " + novaSituacao);
+
+        fatura.setSituacao(novaSituacao);
+        if (novaSituacao == SituacaoFatura.PAGA) {
+            fatura.setDataPagamento(dataEvento != null ? dataEvento : LocalDate.now());
+        }
+
+
+        faturaRepository.save(fatura);
+        System.out.println("Fatura ID " + faturaId + " atualizada para: " + novaSituacao);
     }
 }

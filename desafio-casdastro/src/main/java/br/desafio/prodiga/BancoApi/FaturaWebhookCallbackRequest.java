@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FaturaWebhookCallbackRequest {
-    private Long faturaid;
+    private Long faturaId;
     private String codigoBoleto;
     private SituacaoFatura situacaoFatura;
     private LocalDate dataEvento;

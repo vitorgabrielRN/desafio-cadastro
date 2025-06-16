@@ -11,6 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BoletoResponse {
     private String codigoBoleto;
-
-
 }

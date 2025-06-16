@@ -65,8 +65,10 @@
                                   th:action="@{/faturas/cancelar/{id}(id=${fatura.id})}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Tem certeza que deseja cancelar esta fatura?');">Cancelar</button>
                             </form>
-                            <form th:action="@{/faturas/remover/{id}(id=${fatura.id})}" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-danger ml-1" onclick="return confirm('Tem certeza que deseja remover esta fatura?');">Remover</button>
+                            
+                            <form th:action="@{/faturas/remover/{id}(id=${fatura.id})}" method="post" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja remover esta fatura?');">
+                                <input type="hidden" name="_method" value="delete" /> <input type="hidden" name="clienteId" th:value="${cliente.id}" /> 
+                                <button type="submit" class="btn btn-sm btn-danger ml-1">Remover</button>
                             </form>
                         </div>
                     </td>
@@ -78,6 +80,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script th:src="@{/js/fatura-actions.js}"></script>
-</body>
+    </body>
 </html>

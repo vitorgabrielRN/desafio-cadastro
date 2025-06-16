@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Service.FaturaService;
 
@@ -21,14 +20,14 @@ public class FaturaController {
 
     @PostMapping("/gerarcliente/{clienteId}")
     public ResponseEntity<Fatura> gerarFaturaParaCliente(
-                                               @PathVariable Cliente clienteId,
+                                               @PathVariable Long clienteId,
                                                @RequestParam String mesAnoReferencia) {
         try {
             Fatura fatura = faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
            
             return new ResponseEntity<>(fatura, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
