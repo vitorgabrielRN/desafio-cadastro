@@ -14,7 +14,7 @@ import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.ClienteRepository;
 import br.desafio.prodiga.Repository.FaturaRepository;
 import br.desafio.prodiga.dto.BoletoResponse;
-import br.desafio.prodiga.util.GeradorAleatorio;
+import br.desafio.prodiga.util.GeradorAleatorioUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -46,9 +46,9 @@ public class FaturaService {
         fatura.setMesAnoReferencia(mesAnoReferencia);
 
         //valores principais(vi que é de bom tom separar, mesmo achando que não precisa)
-        fatura.setValor(GeradorAleatorio.gerarValorAleatorio());
+        fatura.setValor(GeradorAleatorioUtils.gerarValorAleatorio());
         fatura.setDataVencimento(LocalDate.now().plusDays(30));
-        fatura.setDataGeracao(GeradorAleatorio.gerarDataVencimentoAleatoria());
+        fatura.setDataGeracao(GeradorAleatorioUtils.gerarDataVencimentoAleatoria());
 
         //fatura
         fatura.setSituacao(SituacaoFatura.GERADA);

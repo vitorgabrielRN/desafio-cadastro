@@ -18,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente {  //LEMBRAR DE COLOCAR VALIDAÇÔES!! quando terminar de testar as coisas. 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -3,7 +3,7 @@ package br.desafio.prodiga.util;
 import java.time.LocalDate;
 import java.util.Random;
 
-public class GeradorAleatorio {
+public class GeradorAleatorioUtils {
   
   
     private static final Random Random = new Random();

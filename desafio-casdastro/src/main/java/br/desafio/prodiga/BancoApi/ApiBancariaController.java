@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.desafio.prodiga.dto.BoletoRequest;
 import br.desafio.prodiga.dto.BoletoResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/boletos")
 public class ApiBancariaController {
 
-  @Autowired
-  private SimulacaoDoCallback simulacaoDoCallback;
+
 
 
 
@@ -26,7 +24,7 @@ public class ApiBancariaController {
     public ResponseEntity<BoletoResponse> registrarBoleto(@RequestBody BoletoRequest request) {
         
         try {
-            Thread.sleep(500);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

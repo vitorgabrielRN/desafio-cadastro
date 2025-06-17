@@ -7,13 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.desafio.prodiga.Model.Cliente;
@@ -38,7 +32,7 @@ public class WebController {
         return "clientes";
     }
 
-    @PostMapping("/clientes")
+  @PostMapping("/clientes/salvar")
     public String salvarCliente(@ModelAttribute Cliente cliente, RedirectAttributes redirectAttributes) {
         try {
             clienteService.salvarCliente(cliente);
@@ -129,8 +123,8 @@ public class WebController {
 
     @PostMapping("/faturas/gerar-para-cliente/{clienteId}")
     public String gerarFaturaParaCliente(@PathVariable Long clienteId,
-            @RequestParam String mesAnoReferencia,
-            RedirectAttributes redirectAttributes) {
+                                         @RequestParam String mesAnoReferencia,
+                                         RedirectAttributes redirectAttributes) {
         try {
 
             faturaService.gerarFaturaParaCliente(clienteId, mesAnoReferencia);
