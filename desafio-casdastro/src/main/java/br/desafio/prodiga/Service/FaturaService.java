@@ -1,62 +1,65 @@
 package br.desafio.prodiga.Service;
 
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.desafio.prodiga.BancoApi.BoletoService;
 import br.desafio.prodiga.Enums.SituacaoFatura;
 import br.desafio.prodiga.Model.Cliente;
 import br.desafio.prodiga.Model.Fatura;
 import br.desafio.prodiga.Repository.ClienteRepository;
 import br.desafio.prodiga.Repository.FaturaRepository;
+import br.desafio.prodiga.dto.BoletoResponse;
+import br.desafio.prodiga.util.GeradorAleatorioUtils;
 import jakarta.transaction.Transactional;
 
 @Service
 public class FaturaService {
-    //Espero que esteja correto
+    // Espero que esteja correto
 
     @Autowired
     private FaturaRepository faturaRepository;
 
     @Autowired
     private ClienteRepository clienteRepository;
-    //sera se vou precisar! pelo menos está ai.
-    @Transactional
-    public List<Fatura> gerarFaturasParaTodosClientes(String mesAnoReferencia) {
-        List<Cliente> clientes = clienteRepository.findAll();
-        List<Fatura> faturasGeradas = clientes.stream()
-                .map(cliente -> gerarFaturaParaCliente(cliente, mesAnoReferencia))
-                .toList();
-        return faturaRepository.saveAll(faturasGeradas);
-    }
 
-    @Transactional
-    public Fatura gerarFaturaParaCliente(Long clienteId, String mesAnoReferencia) {
+    @Autowired
+    private BoletoService boletoService;
+
+
+    // Lembrar que tu apagou aquele que geraFaturaPraTodosOsClientes!
+    // acho que nem vai precisar! kkkk acho mais facil ler assim agora.
+
+    @Transactional // pra não ficar confuso
+    public  Fatura gerarFaturaParaCliente(Long clienteId, String mesAnoReferencia) {
+        //cliente, posso colocar a verificação dps
+
         Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o ID: " + clienteId));
-        return gerarFaturaParaCliente(cliente, mesAnoReferencia);
-    }
-   //TODO espero que funcione as coisas 
-    private Fatura gerarFaturaParaCliente(Cliente cliente, String mesAnoReferencia) {
+                     .orElseThrow(() ->  new RuntimeException("Cliente nao encontrado" ));
+        
         Fatura fatura = new Fatura();
         fatura.setCliente(cliente);
         fatura.setMesAnoReferencia(mesAnoReferencia);
-        fatura.setValor(Fatura.gerarValorAleatorio()); 
+
+        //valores principais(vi que é de bom tom separar, mesmo achando que não precisa)
+        fatura.setValor(GeradorAleatorioUtils.gerarValorAleatorio());
         fatura.setDataVencimento(LocalDate.now().plusDays(30));
+        fatura.setDataGeracao(GeradorAleatorioUtils.gerarDataVencimentoAleatoria());
+
+        //fatura
         fatura.setSituacao(SituacaoFatura.GERADA);
-        fatura.setCodigoBoleto(Fatura.gerarCodigoBoleto()); 
-        fatura.setNumeroFatura("FAT-" + System.currentTimeMillis()); 
+        fatura.setNumeroFatura("FAT-" + System.currentTimeMillis());
+        fatura = faturaRepository.save(fatura);
 
-        
-        if (cliente.getFaturas() != null) {
-            cliente.getFaturas().add(fatura);
-        } else {
-            cliente.setFaturas(List.of(fatura));
-        }
+        //chamando o BoletoService aqui como o felipe disse   
+        BoletoResponse boletoResponse = boletoService.registrarBoleto(fatura);
+        fatura.setCodigoBoleto(boletoResponse.getCodigoBoleto());
 
-        return fatura;
+        return faturaRepository.save(fatura);
     }
 
     public List<Fatura> listarFaturasPorCliente(Long clienteId) {
@@ -66,7 +69,8 @@ public class FaturaService {
     public Optional<Fatura> buscarFaturaPorId(Long id) {
         return faturaRepository.findById(id);
     }
-
+    //coloquei aqui o datageração auto tbm! pra evitar erro! 
+    @Transactional
     public Fatura atualizarFatura(Long id, Fatura faturaAtualizada) {
         return faturaRepository.findById(id).map(faturaExistente -> {
             faturaExistente.setMesAnoReferencia(faturaAtualizada.getMesAnoReferencia());
@@ -74,12 +78,17 @@ public class FaturaService {
             faturaExistente.setDataVencimento(faturaAtualizada.getDataVencimento());
             faturaExistente.setSituacao(faturaAtualizada.getSituacao());
             faturaExistente.setCodigoBoleto(faturaAtualizada.getCodigoBoleto());
+            faturaExistente.setDataGeracao(faturaAtualizada.getDataGeracao());
             faturaExistente.setDataPagamento(faturaAtualizada.getDataPagamento());
             return faturaRepository.save(faturaExistente);
         }).orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + id));
     }
 
+    @Transactional 
     public void removerFatura(Long id) {
+        if (!faturaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Fatura com ID " + id + " não encontrada para remoção.");
+        }
         faturaRepository.deleteById(id);
     }
 
@@ -90,8 +99,9 @@ public class FaturaService {
                         fatura.setSituacao(SituacaoFatura.PAGA);
                         fatura.setDataPagamento(LocalDate.now());
                         return faturaRepository.save(fatura);
-        } else {
-                        throw new IllegalStateException("A fatura não pode ser paga no estado atual: " + fatura.getSituacao());
+                    } else {
+                        throw new IllegalStateException(
+                                "A fatura não pode ser paga no estado atual: " + fatura.getSituacao());
                     }
                 })
                 .orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + faturaId));
@@ -104,9 +114,27 @@ public class FaturaService {
                         fatura.setSituacao(SituacaoFatura.CANCELADA);
                         return faturaRepository.save(fatura);
                     } else {
-                        throw new IllegalStateException("A fatura não pode ser cancelada no estado atual: " + fatura.getSituacao());
+                        throw new IllegalStateException(
+                                "A fatura não pode ser cancelada no estado atual: " + fatura.getSituacao());
                     }
                 })
                 .orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + faturaId));
+    }
+
+   @Transactional
+    public void atualizarFaturaViaWebhook(Long faturaId, SituacaoFatura novaSituacao, LocalDate dataEvento) {
+        Fatura fatura = faturaRepository.findById(faturaId)
+                .orElseThrow(() -> new IllegalArgumentException("Fatura com ID " + faturaId + " não encontrada para atualização via webhook."));
+
+        System.out.println("Fatura ID " + faturaId + ": Atualizando situação de " + fatura.getSituacao() + " para " + novaSituacao);
+
+        fatura.setSituacao(novaSituacao);
+        if (novaSituacao == SituacaoFatura.PAGA) {
+            fatura.setDataPagamento(dataEvento != null ? dataEvento : LocalDate.now());
+        }
+
+
+        faturaRepository.save(fatura);
+        System.out.println("Fatura ID " + faturaId + " atualizada para: " + novaSituacao);
     }
 }
