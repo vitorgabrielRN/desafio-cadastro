@@ -19,7 +19,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class FaturaService {
-    // Espero que esteja correto
 
     @Autowired
     private FaturaRepository faturaRepository;
@@ -30,38 +29,6 @@ public class FaturaService {
     @Autowired
     private BoletoService boletoService;
 
-
-    // Lembrar que tu apagou aquele que geraFaturaPraTodosOsClientes!
-    // acho que nem vai precisar! kkkk acho mais facil ler assim agora.
-
-    @Transactional // pra não ficar confuso
-    public  Fatura gerarFaturaParaCliente(Long clienteId, String mesAnoReferencia) {
-        //cliente, posso colocar a verificação dps
-
-        Cliente cliente = clienteRepository.findById(clienteId)
-                     .orElseThrow(() ->  new RuntimeException("Cliente nao encontrado" ));
-        
-        Fatura fatura = new Fatura();
-        fatura.setCliente(cliente);
-        fatura.setMesAnoReferencia(mesAnoReferencia);
-
-        //valores principais(vi que é de bom tom separar, mesmo achando que não precisa)
-        fatura.setValor(GeradorAleatorioUtils.gerarValorAleatorio());
-        fatura.setDataVencimento(LocalDate.now().plusDays(30));
-        fatura.setDataGeracao(GeradorAleatorioUtils.gerarDataVencimentoAleatoria());
-
-        //fatura
-        fatura.setSituacao(SituacaoFatura.GERADA);
-        fatura.setNumeroFatura("FAT-" + System.currentTimeMillis());
-        fatura = faturaRepository.save(fatura);
-
-        //chamando o BoletoService aqui como o felipe disse   
-        BoletoResponse boletoResponse = boletoService.registrarBoleto(fatura);
-        fatura.setCodigoBoleto(boletoResponse.getCodigoBoleto());
-
-        return faturaRepository.save(fatura);
-    }
-
     public List<Fatura> listarFaturasPorCliente(Long clienteId) {
         return faturaRepository.findByClienteId(clienteId);
     }
@@ -69,7 +36,41 @@ public class FaturaService {
     public Optional<Fatura> buscarFaturaPorId(Long id) {
         return faturaRepository.findById(id);
     }
-    //coloquei aqui o datageração auto tbm! pra evitar erro! 
+
+    @Transactional
+    public void removerFatura(Long id) {
+        if (!faturaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Fatura com ID " + id + " não encontrada para remoção.");
+        }
+        faturaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Fatura gerarFaturaParaCliente(Long clienteId, String mesAnoReferencia) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o ID: " + clienteId));
+
+        Fatura fatura = criarNovaFatura(cliente, mesAnoReferencia);
+        fatura = faturaRepository.save(fatura);
+        BoletoResponse boletoResponse = boletoService.registrarBoleto(fatura);
+        fatura.setCodigoBoleto(boletoResponse.getCodigoBoleto());
+
+        return faturaRepository.save(fatura);
+    }
+
+    private Fatura criarNovaFatura(Cliente cliente, String mesAnoReferencia) {
+        Fatura fatura = new Fatura();
+        fatura.setCliente(cliente);
+        fatura.setMesAnoReferencia(mesAnoReferencia);
+        fatura.setValor(GeradorAleatorioUtils.gerarValorAleatorio());
+        fatura.setDataVencimento(LocalDate.now().plusDays(30));
+        fatura.setDataGeracao(LocalDate.now());
+        fatura.setSituacao(SituacaoFatura.GERADA);
+        fatura.setNumeroFatura("FAT-" + System.currentTimeMillis());
+        fatura.setCodigoBoleto(null);
+        return fatura;
+    }
+
     @Transactional
     public Fatura atualizarFatura(Long id, Fatura faturaAtualizada) {
         return faturaRepository.findById(id).map(faturaExistente -> {
@@ -82,14 +83,6 @@ public class FaturaService {
             faturaExistente.setDataPagamento(faturaAtualizada.getDataPagamento());
             return faturaRepository.save(faturaExistente);
         }).orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + id));
-    }
-
-    @Transactional 
-    public void removerFatura(Long id) {
-        if (!faturaRepository.existsById(id)) {
-            throw new IllegalArgumentException("Fatura com ID " + id + " não encontrada para remoção.");
-        }
-        faturaRepository.deleteById(id);
     }
 
     public Fatura registrarPagamento(Long faturaId) {
@@ -121,20 +114,20 @@ public class FaturaService {
                 .orElseThrow(() -> new RuntimeException("Fatura não encontrada com o ID: " + faturaId));
     }
 
-   @Transactional
+    @Transactional
     public void atualizarFaturaViaWebhook(Long faturaId, SituacaoFatura novaSituacao, LocalDate dataEvento) {
         Fatura fatura = faturaRepository.findById(faturaId)
-                .orElseThrow(() -> new IllegalArgumentException("Fatura com ID " + faturaId + " não encontrada para atualização via webhook."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Fatura com ID " + faturaId + " não encontrada para atualização via webhook."));
 
-        System.out.println("Fatura ID " + faturaId + ": Atualizando situação de " + fatura.getSituacao() + " para " + novaSituacao);
+        System.out.println("Fatura ID " + faturaId + ": Atualizando situação de " + fatura.getSituacao() + " para "
+                + novaSituacao);
 
         fatura.setSituacao(novaSituacao);
         if (novaSituacao == SituacaoFatura.PAGA) {
             fatura.setDataPagamento(dataEvento != null ? dataEvento : LocalDate.now());
         }
-
-
         faturaRepository.save(fatura);
-        System.out.println("Fatura ID " + faturaId + " atualizada para: " + novaSituacao);
+    
     }
 }
