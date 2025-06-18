@@ -11,31 +11,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-@RestController  //  POST /api/boletos
+@RestController
 @RequestMapping("/api/boletos")
 public class ApiBancariaController {
 
-
-
-
-
     @PostMapping
     public ResponseEntity<BoletoResponse> registrarBoleto(@RequestBody BoletoRequest request) {
-        
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        simularProcessamentoExterno(); 
 
-        
-        String boletoId = "BOL-" + System.currentTimeMillis() +  request.getFaturaId();
-
-        System.out.println("API Bancária Simulada: Boleto para Fatura ID " + request.getFaturaId() + " registrado. Código: " + boletoId);
-
-        
+        String boletoId = "BOL-" + System.currentTimeMillis() + "-" + request.getFaturaId();
         return ResponseEntity.ok(new BoletoResponse(boletoId));
     }
 
+    private void simularProcessamentoExterno() {
+        try {
+            Thread.sleep(10000); 
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+        }
+    }
 }
