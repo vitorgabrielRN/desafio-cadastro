@@ -1,4 +1,4 @@
-package br.desafio.prodiga.Service;
+package br.desafio.prodiga.service;
 
 import java.time.LocalDate;
 
@@ -7,12 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.desafio.prodiga.BancoApi.BoletoService;
-import br.desafio.prodiga.Enums.SituacaoFatura;
-import br.desafio.prodiga.Model.Cliente;
-import br.desafio.prodiga.Model.Fatura;
-import br.desafio.prodiga.Repository.ClienteRepository;
-import br.desafio.prodiga.Repository.FaturaRepository;
+import br.desafio.prodiga.bancoApi.service.BoletoService;
+import br.desafio.prodiga.enums.SituacaoFatura;
+import br.desafio.prodiga.model.Cliente;
+import br.desafio.prodiga.model.Fatura;
+import br.desafio.prodiga.repository.ClienteRepository;
+import br.desafio.prodiga.repository.FaturaRepository;
 import br.desafio.prodiga.dto.BoletoResponse;
 import br.desafio.prodiga.util.GeradorAleatorioUtils;
 import jakarta.transaction.Transactional;

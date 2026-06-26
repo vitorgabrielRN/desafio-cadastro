@@ -1,4 +1,4 @@
-package br.desafio.prodiga.BancoApi;
+package br.desafio.prodiga.bancoApi.controller;
 
 import java.time.LocalDate;
 
@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.desafio.prodiga.Enums.SituacaoFatura;
-import br.desafio.prodiga.Model.Fatura;
-import br.desafio.prodiga.Repository.FaturaRepository;
-import br.desafio.prodiga.Service.FaturaService;
+import br.desafio.prodiga.enums.SituacaoFatura;
+import br.desafio.prodiga.model.Fatura;
+import br.desafio.prodiga.repository.FaturaRepository;
+import br.desafio.prodiga.service.FaturaService;
 import br.desafio.prodiga.dto.FaturaWebhookCallbackRequest;
 import jakarta.transaction.Transactional;
 

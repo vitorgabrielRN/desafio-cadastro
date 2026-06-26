@@ -1,4 +1,4 @@
-package br.desafio.prodiga.BancoApi;
+package br.desafio.prodiga.bancoApi.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -8,7 +8,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import br.desafio.prodiga.Model.Fatura;
+import br.desafio.prodiga.model.Fatura;
 import br.desafio.prodiga.dto.BoletoRequest;
 import br.desafio.prodiga.dto.BoletoResponse;
 
