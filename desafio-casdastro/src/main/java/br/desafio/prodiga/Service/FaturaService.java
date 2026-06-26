@@ -137,4 +137,9 @@ public class FaturaService {
         faturaRepository.save(fatura);
         System.out.println("Fatura ID " + faturaId + " atualizada para: " + novaSituacao);
     }
+
+
+
+
+
 }
