@@ -1,8 +1,8 @@
-package br.desafio.prodiga.model;
+package br.desafio.prodiga.Model;
 
 
 import java.time.LocalDate;
-import br.desafio.prodiga.enums.SituacaoFatura;
+import br.desafio.prodiga.Enums.SituacaoFatura;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

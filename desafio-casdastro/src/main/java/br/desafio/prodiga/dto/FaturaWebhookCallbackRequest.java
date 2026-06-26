@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 
 
-import br.desafio.prodiga.enums.SituacaoFatura;
+import br.desafio.prodiga.Enums.SituacaoFatura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

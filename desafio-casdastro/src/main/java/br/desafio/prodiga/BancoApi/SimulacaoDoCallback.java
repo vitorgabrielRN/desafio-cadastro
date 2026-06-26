@@ -1,4 +1,4 @@
-package br.desafio.prodiga.bancoApi;
+package br.desafio.prodiga.BancoApi;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import br.desafio.prodiga.enums.SituacaoFatura;
+import br.desafio.prodiga.Enums.SituacaoFatura;
 import br.desafio.prodiga.dto.FaturaWebhookCallbackRequest;
 
 @Service

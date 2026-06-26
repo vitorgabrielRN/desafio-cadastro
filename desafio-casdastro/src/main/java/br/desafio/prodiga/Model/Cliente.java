@@ -1,4 +1,4 @@
-package br.desafio.prodiga.model;
+package br.desafio.prodiga.Model;
 
 
 

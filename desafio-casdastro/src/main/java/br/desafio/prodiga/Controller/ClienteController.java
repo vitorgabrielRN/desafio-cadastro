@@ -1,4 +1,4 @@
-package br.desafio.prodiga.controller;
+package br.desafio.prodiga.Controller;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.desafio.prodiga.model.Cliente;
-import br.desafio.prodiga.service.ClienteService;
+import br.desafio.prodiga.Model.Cliente;
+import br.desafio.prodiga.Service.ClienteService;
 
 @RestController
 @RequestMapping("/api/clientes") 

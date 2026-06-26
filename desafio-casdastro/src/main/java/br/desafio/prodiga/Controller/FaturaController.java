@@ -1,4 +1,4 @@
-package br.desafio.prodiga.controller;
+package br.desafio.prodiga.Controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import br.desafio.prodiga.model.Fatura;
-import br.desafio.prodiga.service.FaturaService;
+import br.desafio.prodiga.Model.Fatura;
+import br.desafio.prodiga.Service.FaturaService;
 
 @RestController
 @RequestMapping("/api/faturas")

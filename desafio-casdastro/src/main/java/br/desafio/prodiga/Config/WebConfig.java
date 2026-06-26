@@ -1,4 +1,4 @@
-package br.desafio.prodiga.config;
+package br.desafio.prodiga.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

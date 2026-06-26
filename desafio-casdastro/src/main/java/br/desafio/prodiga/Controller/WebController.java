@@ -1,4 +1,4 @@
-package br.desafio.prodiga.controller;
+package br.desafio.prodiga.Controller;
 
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -10,10 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.desafio.prodiga.model.Cliente;
-import br.desafio.prodiga.model.Fatura;
-import br.desafio.prodiga.service.ClienteService;
-import br.desafio.prodiga.service.FaturaService;
+import br.desafio.prodiga.Model.Cliente;
+import br.desafio.prodiga.Model.Fatura;
+import br.desafio.prodiga.Service.ClienteService;
+import br.desafio.prodiga.Service.FaturaService;
 
 @Controller
 @RequestMapping("/")

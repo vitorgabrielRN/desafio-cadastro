@@ -1,11 +1,11 @@
-package br.desafio.prodiga.service;
+package br.desafio.prodiga.Service;
 
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.desafio.prodiga.model.Cliente;
-import br.desafio.prodiga.repository.ClienteRepository;
+import br.desafio.prodiga.Model.Cliente;
+import br.desafio.prodiga.Repository.ClienteRepository;
 
 @Service
 public class ClienteService {
