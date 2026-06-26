@@ -1,4 +1,4 @@
-package br.desafio.prodiga.Repository;
+package br.desafio.prodiga.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.desafio.prodiga.Model.Fatura;
+import br.desafio.prodiga.model.Fatura;
 @Repository
 public interface FaturaRepository extends JpaRepository<Fatura, Long>{
     List<Fatura> findByClienteId(Long clienteId);
