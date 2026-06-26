@@ -1,5 +1,5 @@
 
-package br.desafio.prodiga.BancoApi;
+package br.desafio.prodiga.bancoApi.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
